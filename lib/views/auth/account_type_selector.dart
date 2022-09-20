@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multivendor_shop/views/auth/customer_auth.dart';
 
 import '../../constants/colors.dart';
 
@@ -57,8 +58,10 @@ class _AccountTypeSelectorState extends State<AccountTypeSelector> {
   _navigateToSection() {
     if (typeIndex == 0) {
       // registering as a customer
+      Navigator.of(context).pushNamed(CustomerAuth.routeName);
     } else {
       // registering as a seller
+
     }
   }
 

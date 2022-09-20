@@ -45,6 +45,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
   Widget kTextField(
     TextEditingController controller,
     String hint,
+    String label,
     Field field,
     bool obscureText,
   ) {
@@ -56,7 +57,10 @@ class _CustomerAuthState extends State<CustomerAuth> {
           : TextInputType.text,
       textInputAction:
           field == Field.password ? TextInputAction.done : TextInputAction.next,
+      autofocus: field == Field.email ? true: false,
       decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: primaryColor),
         suffixIcon: field == Field.password
             ? _passwordController.text.isNotEmpty
                 ? IconButton(
@@ -214,124 +218,143 @@ class _CustomerAuthState extends State<CustomerAuth> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(18.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            !isLogin
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                !isLogin
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: profileImage == null ? 60 : 80,
+                            backgroundColor: Colors.white,
+                            child: Center(
+                              child: profileImage == null
+                                  ? Image.asset(
+                                      'assets/images/profile.png',
+                                      color: primaryColor,
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Image.file(
+                                        File(profileImage!.path),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Column(
+                            children: [
+                              kContainer(Source.gallery),
+                              const SizedBox(height: 5),
+                              kContainer(Source.camera)
+                            ],
+                          )
+                        ],
+                      )
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    isLogin ? 'Customer Signin ' : 'Customer Signup',
+                    style: const TextStyle(
+                      color: primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      CircleAvatar(
-                        radius: profileImage == null ? 60 : 80,
-                        backgroundColor: Colors.white,
-                        child: Center(
-                          child: profileImage == null
-                              ? Image.asset(
-                                  'assets/images/profile.png',
-                                  color: primaryColor,
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: Image.file(
-                                    File(profileImage!.path),
-                                  ),
-                                ),
+                      kTextField(
+                        _emailController,
+                        'doe@gmail.com',
+                        'Email Address',
+                        Field.email,
+                        false,
+                      ),
+                      const SizedBox(height: 10),
+                      !isLogin
+                          ? kTextField(
+                              _fullnameController,
+                              'John Doe',
+                              'Fullname',
+                              Field.fullname,
+                              false,
+                            )
+                          : const SizedBox.shrink(),
+                      SizedBox(height: isLogin ? 0 : 10),
+                      kTextField(
+                        _passwordController,
+                        '********',
+                        'Password',
+                        Field.password,
+                        obscure,
+                      ),
+                      const SizedBox(height: 30),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            primary: primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.all(15),
+                          ),
+                          icon: Icon(
+                            isLogin ? Icons.person : Icons.person_add_alt_1,
+                            color: Colors.white,
+                          ),
+                          onPressed: () => _handleAuth(),
+                          label: Text(
+                            isLogin ? 'Signin Account' : 'Signup Account',
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 5),
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          kContainer(Source.gallery),
-                          const SizedBox(height: 5),
-                          kContainer(Source.camera)
+                          TextButton(
+                            onPressed: () => _forgotPassword(),
+                            child: const Text(
+                              'Forgot Password',
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => _switchLog(),
+                            child: Text(
+                              isLogin
+                                  ? 'New here? Create Account'
+                                  : 'Already a user? Sign in',
+                              style: const TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
                         ],
                       )
                     ],
-                  )
-                : const SizedBox.shrink(),
-            const SizedBox(height: 20),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  kTextField(
-                    _emailController,
-                    'doe@gmail.com',
-                    Field.email,
-                    false,
                   ),
-                  const SizedBox(height: 10),
-                  !isLogin
-                      ? kTextField(
-                          _fullnameController,
-                          'John Doe',
-                          Field.fullname,
-                          false,
-                        )
-                      : const SizedBox.shrink(),
-                  SizedBox(height: isLogin ? 0 : 10),
-                  kTextField(
-                    _passwordController,
-                    '********',
-                    Field.password,
-                    obscure,
-                  ),
-                  const SizedBox(height: 30),
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        primary: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                      ),
-                      icon: Icon(
-                        isLogin ? Icons.person : Icons.person_add_alt_1,
-                        color: Colors.white,
-                      ),
-                      onPressed: () => _handleAuth(),
-                      label: Text(
-                        isLogin ? 'Signin Account' : 'Signup Account',
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () => _forgotPassword(),
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => _switchLog(),
-                        child: Text(
-                          isLogin
-                              ? 'New here? Create Account'
-                              : 'Already a user? Sign in',
-                          style: const TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

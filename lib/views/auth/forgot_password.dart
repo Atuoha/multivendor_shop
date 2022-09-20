@@ -48,17 +48,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Center(
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  color: primaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
+                    autofocus: true,
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
                       hintText: 'doe@gmail.com',
+                      labelText: 'Email Address',
+                      labelStyle: const  TextStyle(color:primaryColor),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: const BorderSide(
