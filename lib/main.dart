@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/views/auth/account_type_selector.dart';
 import 'package:multivendor_shop/views/auth/customer_auth.dart';
 
 import 'controllers/routes.dart';
@@ -13,7 +14,7 @@ class MultiVendor extends StatelessWidget{
     return MaterialApp(
       title: 'MultiVendor App',
         debugShowCheckedModeBanner: false,
-        home:CustomerAuth(),
+        home:const AccountTypeSelector(),
         routes: routes,
     );
   }
