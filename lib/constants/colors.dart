@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color(0XFFA1A240);
-var litePrimary = const Color(0XFFA1A240).withOpacity(0.5);
+// A1A240 - Previous color used
+
+const primaryColor = Color(0XFFC32E34);
+var litePrimary = const Color(0XFFC32E34).withOpacity(0.5);

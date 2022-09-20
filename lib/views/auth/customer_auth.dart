@@ -57,7 +57,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
           : TextInputType.text,
       textInputAction:
           field == Field.password ? TextInputAction.done : TextInputAction.next,
-      autofocus: field == Field.email ? true: false,
+      autofocus: field == Field.email ? true : false,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: primaryColor),
@@ -180,6 +180,11 @@ class _CustomerAuthState extends State<CustomerAuth> {
     } else {
       // TODO: implement sign up
     }
+  }
+
+   _googleAuth() {
+  //   // TODO: Implement Google Auth
+  //
   }
 
   // navigate to forgot password screen
@@ -320,6 +325,35 @@ class _CustomerAuthState extends State<CustomerAuth> {
                               color: Colors.white,
                             ),
                           ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.all(15),
+                        ),
+                        onPressed: () => _googleAuth(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/google.png',
+                              width: 20,
+                            ),
+                            const SizedBox(width: 20),
+                            Text(
+                              isLogin
+                                  ? 'Signin with google'
+                                  : 'Signup with google',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
                         ),
                       ),
                       Row(
