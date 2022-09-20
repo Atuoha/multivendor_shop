@@ -129,7 +129,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       'Remembered password? Sign in',
                       style: TextStyle(
                         color: primaryColor,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   )

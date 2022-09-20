@@ -1,6 +1,10 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../constants/colors.dart';
@@ -33,6 +37,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
   var isLogin = true;
   XFile? profileImage;
   final ImagePicker _picker = ImagePicker(); // init imagePicker
+  var isLoading = false;
 
   // toggle password obscure
   _togglePasswordObscure() {
@@ -168,6 +173,26 @@ class _CustomerAuthState extends State<CustomerAuth> {
     );
   }
 
+  // snackbar for error message
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: primaryColor,
+        action: SnackBarAction(
+          onPressed: () => Navigator.of(context).pop(),
+          label: 'Dismiss',
+          textColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
   // handle sign in and  sign up
   _handleAuth() {
     var valid = _formKey.currentState!.validate();
@@ -182,9 +207,57 @@ class _CustomerAuthState extends State<CustomerAuth> {
     }
   }
 
-   _googleAuth() {
-  //   // TODO: Implement Google Auth
-  //
+// authenticate using Google
+  Future<UserCredential> _googleAuth() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    try {
+      // send username, email, and phone number to firestore
+      var logCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(logCredential.user!.uid)
+          .set(
+        {
+          'username': googleUser!.displayName,
+          'email': googleUser.email,
+          'image': googleUser.photoUrl,
+          'auth-type': 'google',
+        },
+      ).then((value) {
+        // isLoadingFnc();
+        // update authtype
+        // Provider.of<SongData>(context).updateAuthType();
+      });
+    } on FirebaseAuthException catch (e) {
+      var error = 'An error occurred. Check credentials!';
+      if (e.message != null) {
+        error = e.message!;
+      }
+
+      showSnackBar(error); // showSnackBar will show error if any
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    // sign in with credential¶
+    return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   // navigate to forgot password screen
@@ -365,7 +438,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
                               'Forgot Password',
                               style: TextStyle(
                                 color: primaryColor,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -377,7 +450,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
                                   : 'Already a user? Sign in',
                               style: const TextStyle(
                                 color: primaryColor,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
