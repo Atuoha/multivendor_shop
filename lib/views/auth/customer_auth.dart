@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../constants/colors.dart';
 
 // for fields
@@ -12,19 +15,24 @@ enum Field {
 // for photo selection
 enum Source { camera, gallery }
 
-class CustomerLandingScreen extends StatefulWidget {
-  const CustomerLandingScreen({Key? key}) : super(key: key);
+class CustomerAuth extends StatefulWidget {
+  static const routeName = '/customer-auth';
+
+  const CustomerAuth({Key? key}) : super(key: key);
 
   @override
-  State<CustomerLandingScreen> createState() => _CustomerLandingScreenState();
+  State<CustomerAuth> createState() => _CustomerAuthState();
 }
 
-class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
+class _CustomerAuthState extends State<CustomerAuth> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _fullnameController = TextEditingController();
   final _passwordController = TextEditingController();
   var obscure = true; // password obscure value
+  var isLogin = true;
+  XFile? profileImage;
+  final ImagePicker _picker = ImagePicker(); // init imagePicker
 
   // toggle password obscure
   _togglePasswordObscure() {
@@ -64,7 +72,7 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: const BorderSide(
-            width: 1,
+            width: 2,
             color: primaryColor,
           ),
         ),
@@ -97,6 +105,7 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
             if (value!.isEmpty || value.length < 8) {
               return 'Password needs to be valid';
             }
+            break;
         }
         return null;
       },
@@ -104,10 +113,29 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
   }
 
   // for selecting photo
-  _selectPhoto(Source source) {
-    print(source);
+  Future _selectPhoto(Source source) async {
+    XFile? pickedImage;
+    switch (source) {
+      case Source.camera:
+        pickedImage = await _picker.pickImage(
+            source: ImageSource.camera, maxWidth: 600, maxHeight: 600);
+        break;
+      case Source.gallery:
+        pickedImage = await _picker.pickImage(
+            source: ImageSource.gallery, maxWidth: 600, maxHeight: 600);
+        break;
+    }
+    if (pickedImage == null) {
+      return null;
+    }
+
+    // assign the picked image to the profileImage
+    setState(() {
+      profileImage = pickedImage;
+    });
   }
 
+  // widget for each profile image selector
   Widget kContainer(Source source) {
     return GestureDetector(
       onTap: () => _selectPhoto(source),
@@ -136,8 +164,31 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
     );
   }
 
-  // sign up
-  _signUp() {}
+  // handle sign in and  sign up
+  _handleAuth() {
+    var valid = _formKey.currentState!.validate();
+    if (!valid) {
+      return null;
+    }
+
+    if (isLogin) {
+      // TODO: implement sign in
+    } else {
+      // TODO: implement sign up
+    }
+  }
+
+  // navigate to forgot password screen
+  _forgotPassword() {
+    Navigator.of(context).pushNamed(ForgotPassword.routeName);
+  }
+
+  _switchLog() {
+    setState(() {
+      isLogin = !isLogin;
+      _passwordController.text = "";
+    });
+  }
 
   @override
   void initState() {
@@ -156,6 +207,7 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
         systemNavigationBarColor: litePrimary,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarDividerColor: Colors.grey,
+        statusBarBrightness: Brightness.dark,
       ),
     );
 
@@ -165,47 +217,38 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'Register as a customer',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Icon(
-                  Icons.person_add_alt_1,
-                  color: primaryColor,
-                  size: 35,
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/profile.png',
-                      color: primaryColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Column(
-                  children: [
-                    kContainer(Source.gallery),
-                    const SizedBox(height: 5),
-                    kContainer(Source.camera)
-                  ],
-                )
-              ],
-            ),
+            !isLogin
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: profileImage == null ? 60 : 80,
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: profileImage == null
+                              ? Image.asset(
+                                  'assets/images/profile.png',
+                                  color: primaryColor,
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image.file(
+                                    File(profileImage!.path),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Column(
+                        children: [
+                          kContainer(Source.gallery),
+                          const SizedBox(height: 5),
+                          kContainer(Source.camera)
+                        ],
+                      )
+                    ],
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(height: 20),
             Form(
               key: _formKey,
@@ -219,13 +262,15 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
                     false,
                   ),
                   const SizedBox(height: 10),
-                  kTextField(
-                    _fullnameController,
-                    'John Doe',
-                    Field.fullname,
-                    false,
-                  ),
-                  const SizedBox(height: 10),
+                  !isLogin
+                      ? kTextField(
+                          _fullnameController,
+                          'John Doe',
+                          Field.fullname,
+                          false,
+                        )
+                      : const SizedBox.shrink(),
+                  SizedBox(height: isLogin ? 0 : 10),
                   kTextField(
                     _passwordController,
                     '********',
@@ -237,23 +282,51 @@ class _CustomerLandingScreenState extends State<CustomerLandingScreen> {
                     textDirection: TextDirection.rtl,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          primary: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.all(15)),
-                      icon: const Icon(
-                        Icons.person_add_alt_1,
+                        primary: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                      ),
+                      icon: Icon(
+                        isLogin ? Icons.person : Icons.person_add_alt_1,
                         color: Colors.white,
                       ),
-                      onPressed: () => _signUp(),
-                      label: const Text(
-                        'Signup',
-                        style: TextStyle(
+                      onPressed: () => _handleAuth(),
+                      label: Text(
+                        isLogin ? 'Signin Account' : 'Signup Account',
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () => _forgotPassword(),
+                        child: const Text(
+                          'Forgot Password',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => _switchLog(),
+                        child: Text(
+                          isLogin
+                              ? 'New here? Create Account'
+                              : 'Already a user? Sign in',
+                          style: const TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),

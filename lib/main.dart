@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:multivendor_shop/views/auth/customer_landing_screen.dart';
+import 'package:multivendor_shop/views/auth/customer_auth.dart';
 
-void main()=> runApp(MultiVendor());
+import 'controllers/routes.dart';
+
+void main()=> runApp(const MultiVendor());
 
 class MultiVendor extends StatelessWidget{
   const MultiVendor({Key? key}) : super(key: key);
@@ -11,8 +13,8 @@ class MultiVendor extends StatelessWidget{
     return MaterialApp(
       title: 'MultiVendor App',
         debugShowCheckedModeBanner: false,
-        home:CustomerLandingScreen(),
-
+        home:CustomerAuth(),
+        routes: routes,
     );
   }
 }
