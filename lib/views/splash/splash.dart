@@ -151,30 +151,42 @@ class _SplashScreenState extends State<SplashScreen> {
                           style: pages[index].contentStyle,
                         ),
                         page == pages.length - 1
-                            ? Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 50.0),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    const SizedBox(height: 10),
+                                    Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: primaryColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          padding: const EdgeInsets.all(15),
+                                        ),
+                                        icon: const Icon(
+                                          Icons.chevron_left,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.of(context).pushNamed(
+                                          AccountTypeSelector.routeName,
+                                        ),
+                                        label: const Text(
+                                          'Get started',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    padding: const EdgeInsets.all(15),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.chevron_left,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () =>
-                                      Navigator.of(context).pushNamed(
-                                    AccountTypeSelector.routeName,
-                                  ),
-                                  label: const Text(
-                                    'Get started',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  ],
                                 ),
                               )
                             : const SizedBox.shrink()
@@ -184,10 +196,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               );
             },
-            slideIconWidget: Icon(
-              Icons.arrow_back_ios,
-              color: pages[page].color,
-            ),
+            slideIconWidget: page != pages.length - 1
+                ? Icon(
+                    Icons.arrow_back_ios,
+                    color: pages[page].color,
+                  )
+                : const SizedBox.shrink(),
             onPageChangeCallback: pageChangeCallback,
             waveType: WaveType.liquidReveal,
             liquidController: liquidController,
@@ -206,46 +220,51 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: TextButton(
-                onPressed: () {
-                  liquidController.animateToPage(
-                      page: pages.length - 1, duration: 700);
-                },
-                child: Text(
-                  "Skip to End",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: pages[page].btnColor,
+          page != pages.length - 1
+              ? Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: TextButton(
+                      onPressed: () {
+                        liquidController.animateToPage(
+                            page: pages.length - 1, duration: 700);
+                      },
+                      child: Text(
+                        "Skip to End",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: pages[page].btnColor,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: TextButton(
-                onPressed: () {
-                  liquidController.jumpToPage(
-                      page: liquidController.currentPage + 1 > pages.length - 1
-                          ? 0
-                          : liquidController.currentPage + 1);
-                },
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: pages[page].btnColor,
+                )
+              : const SizedBox.shrink(),
+          page != pages.length - 1
+              ? Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: TextButton(
+                      onPressed: () {
+                        liquidController.jumpToPage(
+                            page: liquidController.currentPage + 1 >
+                                    pages.length - 1
+                                ? 0
+                                : liquidController.currentPage + 1);
+                      },
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: pages[page].btnColor,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          )
+                )
+              : const SizedBox.shrink()
         ],
       ),
     );
