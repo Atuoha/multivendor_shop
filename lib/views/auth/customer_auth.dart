@@ -252,7 +252,6 @@ class _CustomerAuthState extends State<CustomerAuth> {
           firebase.collection('users').doc(credential.user!.uid).set({
             'fullname': _fullnameController.text.trim(),
             'email': _emailController.text.trim(),
-            'password': _passwordController.text.trim(),
             'image': downloadUrl
           });
           isLoadingFnc();
@@ -429,7 +428,12 @@ class _CustomerAuthState extends State<CustomerAuth> {
                 ),
                 const SizedBox(height: 20),
                 isLoading
-                    ? const Center(child: Loading(color:primaryColor))
+                    ? const Center(
+                        child: Loading(
+                          color: primaryColor,
+                          kSize: 100,
+                        ),
+                      )
                     : Form(
                         key: _formKey,
                         child: Column(
