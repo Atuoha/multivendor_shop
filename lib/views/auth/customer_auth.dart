@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
+import '../../components/loading.dart';
 import '../../constants/colors.dart';
 
 // for fields
@@ -38,6 +41,8 @@ class _CustomerAuthState extends State<CustomerAuth> {
   XFile? profileImage;
   final ImagePicker _picker = ImagePicker(); // init imagePicker
   var isLoading = false;
+  final _auth = FirebaseAuth.instance;
+  final firebase = FirebaseFirestore.instance;
 
   // toggle password obscure
   _togglePasswordObscure() {
@@ -193,17 +198,95 @@ class _CustomerAuthState extends State<CustomerAuth> {
     );
   }
 
+  // loading fnc
+  isLoadingFnc() {
+    setState(() {
+      isLoading = true;
+    });
+    // Timer(const Duration(seconds: 5), () {
+    //   Navigator.of(context).pushNamed('');
+    // });
+  }
+
   // handle sign in and  sign up
-  _handleAuth() {
+  _handleAuth() async {
     var valid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    _formKey.currentState!.save();
     if (!valid) {
       return null;
     }
 
-    if (isLogin) {
-      // TODO: implement sign in
-    } else {
-      // TODO: implement sign up
+    try {
+      if (isLogin) {
+        // TODO: implement sign in
+        await _auth.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } else {
+        // TODO: implement sign up
+
+        if (profileImage == null) {
+          // profile image is empty
+          showSnackBar('Profile image can not be empty!');
+          return null;
+        }
+
+        var credential = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('user-images')
+            .child('${credential.user!.uid}jpg');
+
+        File? file;
+        file = File(profileImage!.path);
+
+        try {
+          await storageRef.putFile(file);
+          var downloadUrl = await storageRef.getDownloadURL();
+          firebase.collection('users').doc(credential.user!.uid).set({
+            'fullname': _fullnameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'password': _passwordController.text.trim(),
+            'image': downloadUrl
+          });
+          isLoadingFnc();
+        } catch (e) {
+          showSnackBar('An error occurred with image uploading');
+          if (kDebugMode) {
+            print('AN ERROR OCCURRED! $e');
+          }
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      var error = 'An error occurred. Check credentials!';
+      if (e.message != null) {
+        if (e.code == 'user-not-found') {
+          error = "Email not recognised!";
+        } else if (e.code == 'account-exists-with-different-credential') {
+          error = "Email already in use!";
+        } else if (e.code == 'wrong-password') {
+          error = 'Email or Password Incorrect!';
+        } else if (e.code == 'network-request-failed') {
+          error = 'Network error!';
+        } else {
+          error = e.code;
+        }
+      }
+
+      showSnackBar(error); // showSnackBar will show error if any
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print('AN ERROR OCCURRED! $e');
+      }
     }
   }
 
@@ -246,7 +329,6 @@ class _CustomerAuthState extends State<CustomerAuth> {
       if (e.message != null) {
         error = e.message!;
       }
-
       showSnackBar(error); // showSnackBar will show error if any
       setState(() {
         isLoading = false;
@@ -346,119 +428,123 @@ class _CustomerAuthState extends State<CustomerAuth> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      kTextField(
-                        _emailController,
-                        'doe@gmail.com',
-                        'Email Address',
-                        Field.email,
-                        false,
-                      ),
-                      const SizedBox(height: 10),
-                      !isLogin
-                          ? kTextField(
-                              _fullnameController,
-                              'John Doe',
-                              'Fullname',
-                              Field.fullname,
-                              false,
-                            )
-                          : const SizedBox.shrink(),
-                      SizedBox(height: isLogin ? 0 : 10),
-                      kTextField(
-                        _passwordController,
-                        '********',
-                        'Password',
-                        Field.password,
-                        obscure,
-                      ),
-                      const SizedBox(height: 30),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.all(15),
-                          ),
-                          icon: Icon(
-                            isLogin ? Icons.person : Icons.person_add_alt_1,
-                            color: Colors.white,
-                          ),
-                          onPressed: () => _handleAuth(),
-                          label: Text(
-                            isLogin ? 'Signin Account' : 'Signup Account',
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.all(15),
-                        ),
-                        onPressed: () => _googleAuth(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                isLoading
+                    ? const Center(child: Loading())
+                    : Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Image.asset(
-                              'assets/images/google.png',
-                              width: 20,
+                            kTextField(
+                              _emailController,
+                              'doe@gmail.com',
+                              'Email Address',
+                              Field.email,
+                              false,
                             ),
-                            const SizedBox(width: 20),
-                            Text(
-                              isLogin
-                                  ? 'Signin with google'
-                                  : 'Signup with google',
-                              style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600),
+                            const SizedBox(height: 10),
+                            !isLogin
+                                ? kTextField(
+                                    _fullnameController,
+                                    'John Doe',
+                                    'Fullname',
+                                    Field.fullname,
+                                    false,
+                                  )
+                                : const SizedBox.shrink(),
+                            SizedBox(height: isLogin ? 0 : 10),
+                            kTextField(
+                              _passwordController,
+                              '********',
+                              'Password',
+                              Field.password,
+                              obscure,
                             ),
+                            const SizedBox(height: 30),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.all(15),
+                                ),
+                                icon: Icon(
+                                  isLogin
+                                      ? Icons.person
+                                      : Icons.person_add_alt_1,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => _handleAuth(),
+                                label: Text(
+                                  isLogin ? 'Signin Account' : 'Signup Account',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(15),
+                              ),
+                              onPressed: () => _googleAuth(),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/google.png',
+                                    width: 20,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Text(
+                                    isLogin
+                                        ? 'Signin with google'
+                                        : 'Signup with google',
+                                    style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () => _forgotPassword(),
+                                  child: const Text(
+                                    'Forgot Password',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => _switchLog(),
+                                  child: Text(
+                                    isLogin
+                                        ? 'New here? Create Account'
+                                        : 'Already a user? Sign in',
+                                    style: const TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () => _forgotPassword(),
-                            child: const Text(
-                              'Forgot Password',
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => _switchLog(),
-                            child: Text(
-                              isLogin
-                                  ? 'New here? Create Account'
-                                  : 'Already a user? Sign in',
-                              style: const TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          )
-                        ],
                       )
-                    ],
-                  ),
-                )
               ],
             ),
           ),

@@ -9,11 +9,12 @@ https://pub.dev/packages/google_sign_in   OR facebook_signin for FACEBOOK
 https://pub.dev/packages/firebase_core/
 https://pub.dev/packages/firebase_auth/
 https://pub.dev/packages/cloud_firestore
+https://pub.dev/packages/firebase_storage
 
 SHA FINGERPRINT
 PS C:\Flutter_Apps\zedmusic\android> ./gradlew signingReport
 
-
+-Add this line rule
 service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
@@ -21,7 +22,7 @@ service firebase.storage {
     }
   }
 }
-To Storage Rule
+
 
 
 
