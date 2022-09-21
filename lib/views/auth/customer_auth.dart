@@ -241,7 +241,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('user-images')
-            .child('${credential.user!.uid}jpg');
+            .child('${credential.user!.uid}.jpg');
 
         File? file;
         file = File(profileImage!.path);
@@ -429,7 +429,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
                 ),
                 const SizedBox(height: 20),
                 isLoading
-                    ? const Center(child: Loading())
+                    ? const Center(child: Loading(color:primaryColor))
                     : Form(
                         key: _formKey,
                         child: Column(

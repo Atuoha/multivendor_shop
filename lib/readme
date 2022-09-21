@@ -29,4 +29,23 @@ service firebase.storage {
 RUN "flutterfire configure" TO OBTAIN firebase_options
 
 
+Add these lines to make your splash screen more good
+in values/styles.xml and values-night/styles.xml in res folder:
+ <item name="android:statusBarColor">@android:color/transparent</item>
+ <item name="android:windowTranslucentNavigation">true</item>
+
+
+ Change App name
+ IOS
+ Open info.plist (located at ios/Runner)
+ <key>CFBundleName</key>
+ <string>App Name</string>
+
+
+ ANDROID
+ Open AndroidManifest.xml (located at android/app/src/main)
+
+ <application
+       android:label="App Name" ...> // Your app name here
+
  */
