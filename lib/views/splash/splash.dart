@@ -208,7 +208,8 @@ class _SplashScreenState extends State<SplashScreen> {
             enableSideReveal: true,
             ignoreUserGestureWhileAnimating: true,
           ),
-          Padding(
+          page != pages.length - 1
+              ? Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: <Widget>[
@@ -219,7 +220,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ],
             ),
-          ),
+          ): const SizedBox.shrink(),
           page != pages.length - 1
               ? Align(
                   alignment: Alignment.bottomRight,
@@ -228,7 +229,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: TextButton(
                       onPressed: () {
                         liquidController.animateToPage(
-                            page: pages.length - 1, duration: 700);
+                          page: pages.length - 1,
+                          duration: 700,
+                        );
                       },
                       child: Text(
                         "Skip to End",

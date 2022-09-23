@@ -10,7 +10,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../components/loading.dart';
+import '../../components/snackbar.dart';
 import '../../constants/colors.dart';
+import '../../controllers/image_picker.dart';
+import '../main/bottomNav.dart';
 
 // for fields
 enum Field {
@@ -38,8 +41,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
   final _passwordController = TextEditingController();
   var obscure = true; // password obscure value
   var isLogin = true;
-  XFile? profileImage;
-  final ImagePicker _picker = ImagePicker(); // init imagePicker
+  File? profileImage;
   var isLoading = false;
   final _auth = FirebaseAuth.instance;
   final firebase = FirebaseFirestore.instance;
@@ -49,6 +51,26 @@ class _CustomerAuthState extends State<CustomerAuth> {
     setState(() {
       obscure = !obscure;
     });
+  }
+
+  // snackbar for error message
+  showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: primaryColor,
+        action: SnackBarAction(
+          onPressed: () => Navigator.of(context).pop(),
+          label: 'Dismiss',
+          textColor: Colors.white,
+        ),
+      ),
+    );
   }
 
   // custom textfield for all form fields
@@ -127,75 +149,10 @@ class _CustomerAuthState extends State<CustomerAuth> {
   }
 
   // for selecting photo
-  Future _selectPhoto(Source source) async {
-    XFile? pickedImage;
-    switch (source) {
-      case Source.camera:
-        pickedImage = await _picker.pickImage(
-            source: ImageSource.camera, maxWidth: 600, maxHeight: 600);
-        break;
-      case Source.gallery:
-        pickedImage = await _picker.pickImage(
-            source: ImageSource.gallery, maxWidth: 600, maxHeight: 600);
-        break;
-    }
-    if (pickedImage == null) {
-      return null;
-    }
-
-    // assign the picked image to the profileImage
+  _selectPhoto(File image) {
     setState(() {
-      profileImage = pickedImage;
+      profileImage = image;
     });
-  }
-
-  // widget for each profile image selector
-  Widget kContainer(Source source) {
-    return GestureDetector(
-      onTap: () => _selectPhoto(source),
-      child: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: source == Source.gallery
-              ? const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                )
-              : const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-        ),
-        child: Center(
-          child: Icon(
-            source == Source.gallery ? Icons.photo : Icons.camera_alt_rounded,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  // snackbar for error message
-  void showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: primaryColor,
-        action: SnackBarAction(
-          onPressed: () => Navigator.of(context).pop(),
-          label: 'Dismiss',
-          textColor: Colors.white,
-        ),
-      ),
-    );
   }
 
   // loading fnc
@@ -203,9 +160,9 @@ class _CustomerAuthState extends State<CustomerAuth> {
     setState(() {
       isLoading = true;
     });
-    // Timer(const Duration(seconds: 5), () {
-    //   Navigator.of(context).pushNamed('');
-    // });
+    Timer(const Duration(seconds: 5), () {
+      Navigator.of(context).pushNamed(BottomNav.routeName);
+    });
   }
 
   // handle sign in and  sign up
@@ -224,6 +181,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+        isLoadingFnc(); // spin and redirect
       } else {
         // TODO: implement sign up
 
@@ -256,7 +214,9 @@ class _CustomerAuthState extends State<CustomerAuth> {
           });
           isLoadingFnc();
         } catch (e) {
-          showSnackBar('An error occurred with image uploading');
+          if (kDebugMode) {
+            showSnackBar('An error occurred with image uploading');
+          }
           if (kDebugMode) {
             print('AN ERROR OCCURRED! $e');
           }
@@ -319,9 +279,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
           'auth-type': 'google',
         },
       ).then((value) {
-        // isLoadingFnc();
-        // update authtype
-        // Provider.of<SongData>(context).updateAuthType();
+        isLoadingFnc();
       });
     } on FirebaseAuthException catch (e) {
       var error = 'An error occurred. Check credentials!';
@@ -337,7 +295,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
         print(e);
       }
     }
-    // sign in with credential¶
+    // sign in with credential
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
@@ -384,36 +342,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 !isLogin
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: profileImage == null ? 60 : 80,
-                            backgroundColor: Colors.white,
-                            child: Center(
-                              child: profileImage == null
-                                  ? Image.asset(
-                                      'assets/images/profile.png',
-                                      color: primaryColor,
-                                    )
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: Image.file(
-                                        File(profileImage!.path),
-                                      ),
-                                    ),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Column(
-                            children: [
-                              kContainer(Source.gallery),
-                              const SizedBox(height: 5),
-                              kContainer(Source.camera)
-                            ],
-                          )
-                        ],
-                      )
+                    ? ProfileImagePicker(selectImage: _selectPhoto)
                     : const SizedBox.shrink(),
                 const SizedBox(height: 20),
                 Center(
@@ -431,7 +360,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
                     ? const Center(
                         child: Loading(
                           color: primaryColor,
-                          kSize: 100,
+                          kSize: 70,
                         ),
                       )
                     : Form(

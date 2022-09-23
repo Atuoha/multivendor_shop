@@ -7,6 +7,7 @@ import 'package:multivendor_shop/views/splash/splash.dart';
 import '../../components/loading.dart';
 import '../../constants/colors.dart';
 import '../auth/account_type_selector.dart';
+import '../main/bottomNav.dart';
 
 class EntryScreen extends StatefulWidget {
   static const routeName = '/entry-screen';
@@ -23,7 +24,6 @@ class _EntryScreenState extends State<EntryScreen> {
     var duration = const Duration(seconds: 5);
     if (ifr != null && !ifr) {
       Timer(duration, _navigateToAuthOrHome);
-      // Timer(duration, _navigateToSplash);
     } else {
       Timer(duration, _navigateToSplash);
     }
@@ -39,7 +39,7 @@ class _EntryScreenState extends State<EntryScreen> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         // home screen
-        Navigator.of(context).pushNamed('');
+        Navigator.of(context).pushNamed(BottomNav.routeName);
       } else {
         // auth screen
         Navigator.of(context).pushNamed(AccountTypeSelector.routeName);
@@ -73,7 +73,10 @@ class _EntryScreenState extends State<EntryScreen> {
           children: [
             Image.asset('assets/images/logo1.png'),
             const SizedBox(height: 10),
-            const Loading(color: Colors.white,kSize: 40,),
+            const Loading(
+              color: Colors.white,
+              kSize: 40,
+            ),
           ],
         ),
       ),
