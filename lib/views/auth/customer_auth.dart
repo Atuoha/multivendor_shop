@@ -343,7 +343,13 @@ class _CustomerAuthState extends State<CustomerAuth> {
               children: [
                 !isLogin
                     ? ProfileImagePicker(selectImage: _selectPhoto)
-                    : const SizedBox.shrink(),
+                    : Center(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 60,
+                          child: Image.asset('assets/images/login.png'),
+                        ),
+                      ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(

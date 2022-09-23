@@ -48,6 +48,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 60,
+                child: Image.asset('assets/images/forgot.png'),
+              ),
+            ),
             const Center(
               child: Text(
                 'Forgot Password?',
@@ -64,6 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+
                   TextFormField(
                     autofocus: true,
                     controller: _emailController,
@@ -72,7 +80,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     decoration: InputDecoration(
                       hintText: 'doe@gmail.com',
                       labelText: 'Email Address',
-                      labelStyle: const  TextStyle(color:primaryColor),
+                      labelStyle: const TextStyle(color: primaryColor),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: const BorderSide(

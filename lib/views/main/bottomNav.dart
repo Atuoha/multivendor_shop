@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 import 'package:multivendor_shop/views/main/cart.dart';
+import 'package:multivendor_shop/views/main/favorites.dart';
 import 'package:multivendor_shop/views/main/home.dart';
 import 'package:multivendor_shop/views/main/profile.dart';
-import 'package:multivendor_shop/views/main/search.dart';
+import 'package:multivendor_shop/views/main/category.dart';
 import 'package:multivendor_shop/views/main/shop.dart';
 
 class BottomNav extends StatefulWidget {
@@ -20,7 +21,8 @@ class _BottomNavState extends State<BottomNav> {
   var currentPageIndex = 0;
   final _pages = const [
     HomeScreen(),
-    SearchScreen(),
+    FavoriteScreen(),
+    CategoryScreen(),
     ShopScreen(),
     CartScreen(),
     ProfileScreen(),
@@ -43,6 +45,9 @@ class _BottomNavState extends State<BottomNav> {
         items: const [
           TabItem(
             icon: Icons.house_siding,
+          ),
+          TabItem(
+            icon: Icons.favorite_border,
           ),
           TabItem(
             icon: Icons.search,
