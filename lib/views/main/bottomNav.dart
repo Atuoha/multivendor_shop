@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter/services.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 import 'package:multivendor_shop/views/main/cart.dart';
 import 'package:multivendor_shop/views/main/favorites.dart';
@@ -36,6 +37,15 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: litePrimary,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.grey,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
     return Scaffold(
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: primaryColor,
@@ -64,6 +74,7 @@ class _BottomNavState extends State<BottomNav> {
         ],
         onTap: selectPage,
       ),
+      backgroundColor: Colors.grey.shade200,
       body: _pages[currentPageIndex],
     );
   }
