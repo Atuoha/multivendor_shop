@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 
+import '../../components/kListTile.dart';
 import '../auth/customer_auth.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var userId = FirebaseAuth.instance.currentUser!.uid;
   var credential;
   var isLoading = true;
-  var logoutLoading = false;
   var isInit = true;
 
   // fetch user credentials
@@ -35,12 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _logout() {
     auth.signOut();
-    setState(() {
-      logoutLoading = true;
-    });
-    Timer(const Duration(seconds: 4), () {
-      Navigator.of(context).pushNamed(CustomerAuth.routeName);
-    });
+    Navigator.of(context).pushNamed(CustomerAuth.routeName);
   }
 
   _editProfile() {
@@ -260,56 +255,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ListView(
                           padding: EdgeInsets.zero,
                           children: [
-                            ListTile(
-                              title: const Text(
-                                'Email Address',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              subtitle: Text(credential['email']),
-                              leading: const Icon(
-                                Icons.email,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Email Address',
+                              subtitle: credential['email'],
+                              icon: Icons.email,
+                              onTapHandler: () {},
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Divider(thickness: 1),
                             ),
-                            ListTile(
-                              title: const Text(
-                                'Phone Number',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              subtitle: Text(
-                                credential['phone'] ?? 'Not set yet',
-                              ),
-                              leading: const Icon(
-                                Icons.phone,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Phone Number',
+                              subtitle: credential['phone'] == ""
+                                  ? 'Not set yet'
+                                  : credential['phone'],
+                              icon: Icons.phone,
+                              onTapHandler: () {},
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Divider(thickness: 1),
                             ),
-                            ListTile(
-                              title: const Text(
-                                'Address',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              subtitle: Text(
-                                credential['address'] ?? 'Not set yet',
-                              ),
-                              leading: const Icon(
-                                Icons.location_pin,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Delivery Address',
+                              subtitle: credential['address'] == ""
+                                  ? 'Not set yet'
+                                  : credential['address'],
+                              icon: Icons.location_pin,
+                              onTapHandler: () {},
                             ),
                           ],
                         ),
@@ -324,52 +298,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ListView(
                           padding: EdgeInsets.zero,
                           children: [
-                            ListTile(
-                              onTap: () => _editProfile(),
-                              title: const Text(
-                                'Edit Profile',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.edit_note,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Edit Profile',
+                              subtitle: '',
+                              icon: Icons.edit_note,
+                              onTapHandler: _editProfile,
+                              showSubtitle: false,
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Divider(thickness: 1),
                             ),
-                            ListTile(
-                              onTap: () => _settings(),
-                              title: const Text(
-                                'Settings',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.settings,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Settings and Config',
+                              subtitle: '',
+                              icon: Icons.settings,
+                              onTapHandler: _settings,
+                              showSubtitle: false,
+
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Divider(thickness: 1),
                             ),
-                            ListTile(
-                              onTap: () => _logout(),
-                              title: const Text(
-                                'Logout',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              leading: const Icon(
-                                Icons.logout,
-                                color: primaryColor,
-                              ),
+                            KListTile(
+                              title: 'Logout',
+                              subtitle: '',
+                              icon: Icons.logout,
+                              onTapHandler: _logout,
+                              showSubtitle: false,
+
                             ),
                           ],
                         ),

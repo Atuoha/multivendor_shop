@@ -276,7 +276,7 @@ class _CustomerAuthState extends State<CustomerAuth> {
           .doc(logCredential.user!.uid)
           .set(
         {
-          'username': googleUser!.displayName,
+          'fullname': googleUser!.displayName,
           'email': googleUser.email,
           'image': googleUser.photoUrl,
           'auth-type': 'google',
