@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 
+import '../../components/kDividerText.dart';
 import '../../components/kListTile.dart';
 import '../auth/customer_auth.dart';
 
@@ -46,6 +47,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.of(context).pushNamed('');
   }
 
+  _changePassword() {
+    // TODO: Implement change password
+  }
+
   @override
   void initState() {
     super.initState();
@@ -80,16 +85,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 elevation: 0,
                 automaticallyImplyLeading: false,
                 expandedHeight: 130,
-                backgroundColor: Colors.white,
+                backgroundColor: primaryColor,
                 flexibleSpace: LayoutBuilder(
                   builder: (context, constraints) {
                     return FlexibleSpaceBar(
+                      titlePadding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 10,
+                      ),
                       title: AnimatedOpacity(
                         opacity: constraints.biggest.height <= 120 ? 1 : 0,
                         duration: const Duration(
                           milliseconds: 300,
                         ),
-                        child: const Text('Profile'),
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: primaryColor,
+                                backgroundImage: NetworkImage(
+                                  credential['image'],
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                credential['fullname'],
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ]),
                       ),
                       background: Container(
                         decoration: const BoxDecoration(
@@ -147,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 30,
+                                    horizontal: 20,
                                     vertical: 10,
                                   ),
                                   primary: bWhite,
@@ -160,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onPressed: () {},
                                 child: const Text(
-                                  'Cart',
+                                  'Order',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -181,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onPressed: () {},
                                 child: const Text(
-                                  'Order',
+                                  'Wishlist',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -205,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onPressed: () {},
                                 child: const Text(
-                                  'Wishlist',
+                                  'Cart',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -217,35 +245,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            width: 50,
-                            child: Divider(
-                              thickness: 2,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            'Account Information',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 50,
-                            child: Divider(
-                              thickness: 2,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
+                      // const KDividerText(title: 'Account Information'),
+                      const SizedBox(height: 20),
                       Container(
                         height: size.height / 2.8,
                         decoration: BoxDecoration(
@@ -259,7 +260,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: 'Email Address',
                               subtitle: credential['email'],
                               icon: Icons.email,
-                              onTapHandler: () {},
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
@@ -271,7 +271,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ? 'Not set yet'
                                   : credential['phone'],
                               icon: Icons.phone,
-                              onTapHandler: () {},
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
@@ -283,14 +282,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ? 'Not set yet'
                                   : credential['address'],
                               icon: Icons.location_pin,
-                              onTapHandler: () {},
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      // const KDividerText(title: 'Account Settings'),
+                      const SizedBox(height: 20),
                       Container(
-                        height: size.height / 5,
+                        height: size.height / 3,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -299,8 +298,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: EdgeInsets.zero,
                           children: [
                             KListTile(
+                              title: 'App Settings',
+                              icon: Icons.settings,
+                              onTapHandler: _settings,
+                              showSubtitle: false,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Divider(thickness: 1),
+                            ),
+                            KListTile(
                               title: 'Edit Profile',
-                              subtitle: '',
                               icon: Icons.edit_note,
                               onTapHandler: _editProfile,
                               showSubtitle: false,
@@ -310,12 +318,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Divider(thickness: 1),
                             ),
                             KListTile(
-                              title: 'Settings and Config',
-                              subtitle: '',
-                              icon: Icons.settings,
-                              onTapHandler: _settings,
+                              title: 'Change Password',
+                              icon: Icons.key,
+                              onTapHandler: _changePassword,
                               showSubtitle: false,
-
                             ),
                             const Padding(
                               padding: EdgeInsets.all(8.0),
@@ -323,11 +329,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             KListTile(
                               title: 'Logout',
-                              subtitle: '',
                               icon: Icons.logout,
                               onTapHandler: _logout,
                               showSubtitle: false,
-
                             ),
                           ],
                         ),
