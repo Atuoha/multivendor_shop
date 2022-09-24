@@ -7,10 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../components/loading.dart';
-import '../../components/snackbar.dart';
 import '../../constants/colors.dart';
 import '../../controllers/image_picker.dart';
 import '../main/bottomNav.dart';
@@ -22,8 +20,7 @@ enum Field {
   password,
 }
 
-// for photo selection
-enum Source { camera, gallery }
+
 
 class CustomerAuth extends StatefulWidget {
   static const routeName = '/customer-auth';

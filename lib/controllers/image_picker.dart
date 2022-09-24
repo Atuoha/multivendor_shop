@@ -6,9 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import '../constants/colors.dart';
 
 class ProfileImagePicker extends StatefulWidget {
-  const ProfileImagePicker({Key? key, required this.selectImage})
-      : super(key: key);
+  const ProfileImagePicker({
+    Key? key,
+    required this.selectImage,
+    this.isReg = true,
+    this.imgUrl = 'assets/images/profile.png',
+  }) : super(key: key);
   final Function(File) selectImage;
+  final bool isReg;
+  final String imgUrl;
 
   @override
   State<ProfileImagePicker> createState() => _ProfileImagePickerState();
@@ -91,10 +97,15 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
           backgroundColor: Colors.white,
           child: Center(
             child: profileImage == null
-                ? Image.asset(
-                    'assets/images/profile.png',
-                    color: primaryColor,
-                  )
+                ? widget.isReg
+                    ? Image.asset(
+                        'assets/images/profile.png',
+                        color: primaryColor,
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.network(widget.imgUrl),
+                      ) // this will load imgUrl from firebase
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Image.file(

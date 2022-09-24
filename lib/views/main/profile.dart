@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import 'package:multivendor_shop/views/main/edit_profile.dart';
 
 import '../../components/kDividerText.dart';
 import '../../components/kListTile.dart';
@@ -40,7 +41,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _editProfile() {
-    Navigator.of(context).pushNamed('');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditProfile(),
+      ),
+    );
   }
 
   _settings() {
@@ -48,7 +53,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _changePassword() {
-    // TODO: Implement change password
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditProfile(
+          editPasswordOnly: true,
+        ),
+      ),
+    );
   }
 
   @override
