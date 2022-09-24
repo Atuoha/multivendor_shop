@@ -210,7 +210,10 @@ class _CustomerAuthState extends State<CustomerAuth> {
           firebase.collection('users').doc(credential.user!.uid).set({
             'fullname': _fullnameController.text.trim(),
             'email': _emailController.text.trim(),
-            'image': downloadUrl
+            'image': downloadUrl,
+            'auth-type': 'email',
+            'phone': '',
+            'address': '',
           });
           isLoadingFnc();
         } catch (e) {
@@ -277,6 +280,8 @@ class _CustomerAuthState extends State<CustomerAuth> {
           'email': googleUser.email,
           'image': googleUser.photoUrl,
           'auth-type': 'google',
+          'phone': '',
+          'address': '',
         },
       ).then((value) {
         isLoadingFnc();
