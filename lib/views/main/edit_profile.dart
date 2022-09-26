@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../components/loading.dart';
@@ -209,7 +211,58 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  _saveDetails() {}
+  _changePassword() {}
+
+  _saveDetails() async {
+    var valid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    _formKey.currentState!.save();
+    if (!valid) {
+      return null;
+    }
+
+
+    if (widget.editPasswordOnly || changePassword) {
+
+      // TODO: Implement password change
+      _auth.currentUser!.updatePassword(_passwordController.text.trim());
+    } else {
+      // TODO: Implement profile edit
+      // Image
+      var storageRef = FirebaseStorage.instance
+          .ref()
+          .child('user-images')
+          .child('$userId.jpg');
+      File? file;
+      if (profileImage != null) {
+        file = File(profileImage!.path);
+      }
+
+      try {
+        if (profileImage == null) {
+          await storageRef.putFile(file!);
+        }
+        //  obtain image download url
+        var downloadUrl = await storageRef.getDownloadURL();
+
+        // TODO: persisting new details to firebase
+        _auth.currentUser!.updateEmail(_emailController.text.trim());
+        firebase.collection('users').doc(userId).set({
+          "email": _emailController.text.trim(),
+          "fullname": _fullnameController.text.trim(),
+          "phone": _phoneController.text.trim(),
+          "address": _addressController.text.trim(),
+          "image": downloadUrl,
+        });
+      } on FirebaseException catch (e) {
+        showSnackBar(e.message!);
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
