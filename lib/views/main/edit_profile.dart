@@ -52,6 +52,8 @@ class _EditProfileState extends State<EditProfile> {
     credential = await firebase.collection('users').doc(userId).get();
     _emailController.text = credential['email'];
     _fullnameController.text = credential['fullname'];
+    _phoneController.text = credential['phone'];
+    _addressController.text = credential['address'];
     setState(() {
       isLoading = false;
     });
@@ -211,9 +213,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  _changePassword() {}
-
-  _saveDetails() async {
+  Future _saveDetails() async {
     var valid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     _formKey.currentState!.save();
@@ -221,11 +221,10 @@ class _EditProfileState extends State<EditProfile> {
       return null;
     }
 
-
     if (widget.editPasswordOnly || changePassword) {
-
       // TODO: Implement password change
       _auth.currentUser!.updatePassword(_passwordController.text.trim());
+      isLoadingFnc();
     } else {
       // TODO: Implement profile edit
       // Image
@@ -239,7 +238,7 @@ class _EditProfileState extends State<EditProfile> {
       }
 
       try {
-        if (profileImage == null) {
+        if (profileImage != null) {
           await storageRef.putFile(file!);
         }
         //  obtain image download url
@@ -254,6 +253,7 @@ class _EditProfileState extends State<EditProfile> {
           "address": _addressController.text.trim(),
           "image": downloadUrl,
         });
+        isLoadingFnc();
       } on FirebaseException catch (e) {
         showSnackBar('Error occurred! ${e.message}');
       } catch (e) {
@@ -308,7 +308,7 @@ class _EditProfileState extends State<EditProfile> {
             ? const Center(
                 child: Loading(
                   color: primaryColor,
-                  kSize: 70,
+                  kSize: 40,
                 ),
               )
             : Padding(

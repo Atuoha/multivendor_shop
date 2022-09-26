@@ -40,16 +40,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Image.asset(
               'assets/images/profile.png',
-              width: 30,
+              width: 35,
               color: primaryColor,
             ),
             const Text(
               'Logout Account',
-              style: TextStyle(color: primaryColor),
+              style: TextStyle(
+                color: primaryColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
-        content: const Text('Are you sure you want to log out?'),
+        content: const Text(
+          'Are you sure you want to log out?',
+          style: TextStyle(
+            color: primaryColor,
+          ),
+        ),
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -58,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () => _logout,
+            onPressed: () => _logout(),
             child: const Text(
               'Yes',
               style: TextStyle(
@@ -92,11 +100,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _editProfile() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const EditProfile(),
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => const EditProfile(),
+          ),
+        )
+        .then(
+          (value) => setState(
+            () {},
+          ),
+        );
   }
 
   _settings() {
