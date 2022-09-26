@@ -92,10 +92,12 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         18.0,
-        48,
+        40,
         18,
         0,
       ),
@@ -124,30 +126,92 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.83,
-                // child: ListView(
-                //   children: [
-                //     Text(''),
-                //   ],
-                // ),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/sp2.png',
-                        width: 250,
+                height: size.height * 0.83,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height / 1.3,
+                      child: ListView(
+                        children: [
+                          Text(''),
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Opps! No items on the cart ',
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 18,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: const [
+                                Text(
+                                  'Total:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 22,
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  '\$0.00',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 30,
+                                      color: primaryColor),
+                                ),
+                              ],
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.shopping_cart_checkout,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () =>
+                                    confirmOptions(Operation.checkoutCart),
+                                label: const Text(
+                                  'Checkout',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
+
+                // child: Center(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Image.asset(
+                //         'assets/images/sp2.png',
+                //         width: 250,
+                //       ),
+                //       const SizedBox(height: 10),
+                //       const Text(
+                //         'Opps! No items on the cart ',
+                //         style: TextStyle(
+                //           color: primaryColor,
+                //           fontSize: 18,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
               ),
             ],
           ),
