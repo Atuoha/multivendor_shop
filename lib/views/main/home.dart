@@ -12,7 +12,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18.0, 48, 18, 0),
+      padding: const EdgeInsets.fromLTRB(
+        18.0,
+        48,
+        18,
+        0,
+      ),
       child: Column(
         children: [
           TextFormField(
