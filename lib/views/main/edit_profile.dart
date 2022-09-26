@@ -255,7 +255,7 @@ class _EditProfileState extends State<EditProfile> {
           "image": downloadUrl,
         });
       } on FirebaseException catch (e) {
-        showSnackBar(e.message!);
+        showSnackBar('Error occurred! ${e.message}');
       } catch (e) {
         if (kDebugMode) {
           print(e);

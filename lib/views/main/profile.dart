@@ -1,13 +1,9 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 import 'package:multivendor_shop/views/main/edit_profile.dart';
-
 import '../../components/kDividerText.dart';
 import '../../components/kListTile.dart';
 import '../auth/customer_auth.dart';
@@ -33,6 +29,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  showLogoutOptions() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/profile.png',
+              width: 30,
+              color: primaryColor,
+            ),
+            const Text(
+              'Logout Account',
+              style: TextStyle(color: primaryColor),
+            ),
+          ],
+        ),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () => _logout,
+            child: const Text(
+              'Yes',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   _logout() {
@@ -341,7 +392,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             KListTile(
                               title: 'Logout',
                               icon: Icons.logout,
-                              onTapHandler: _logout,
+                              onTapHandler: showLogoutOptions,
                               showSubtitle: false,
                             ),
                           ],
