@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   var slides = [
     'assets/images/slides/slide_1.jpg',
     'assets/images/slides/slide_2.jpg',
-    'assets/images/slides/slide_3.jpg',
     'assets/images/slides/slide_4.jpg',
+    'assets/images/slides/slide_3.jpg',
     'assets/images/slides/slide_5.jpg',
     'assets/images/slides/slide_6.jpg',
     'assets/images/slides/slide_7.jpg',

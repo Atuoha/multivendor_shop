@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
+import '../../models/category.dart';
 import 'product_categories/children.dart';
 import 'product_categories/men.dart';
 import 'product_categories/others.dart';
@@ -14,13 +15,30 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  var currentCategory = 0;
-  var categories = [
-    {'title': 'Men', 'img': 'assets/images/category_imgs/men.png'},
-    {'title': 'Women', 'img': 'assets/images/category_imgs/women.png'},
-    {'title': 'Children', 'img': 'assets/images/category_imgs/children.png'},
-    {'title': 'Sneakers', 'img': 'assets/images/category_imgs/sneakers.png'},
-    {'title': 'Others', 'img': 'assets/images/category_imgs/other.png'}
+  final _pageController = PageController();
+
+  final List<CategoryItem> categories = [
+    CategoryItem(
+      title: 'Men',
+      imgUrl: 'assets/images/category_imgs/men.png',
+      isActive: true,
+    ),
+    CategoryItem(
+      title: 'Women',
+      imgUrl: 'assets/images/category_imgs/women.png',
+    ),
+    CategoryItem(
+      title: 'Children',
+      imgUrl: 'assets/images/category_imgs/children.png',
+    ),
+    CategoryItem(
+      title: 'Sneakers',
+      imgUrl: 'assets/images/category_imgs/sneakers.png',
+    ),
+    CategoryItem(
+      title: 'Others',
+      imgUrl: 'assets/images/category_imgs/other.png',
+    )
   ];
 
   final categoriesList = const [
@@ -31,43 +49,42 @@ class _CategoryScreenState extends State<CategoryScreen> {
     Others(),
   ];
 
-
   Widget kCategoryContainer(
-    String text,
-    String imgUrl,
+    CategoryItem category,
     int index,
   ) {
     return GestureDetector(
       onTap: () => setState(() {
-        currentCategory = index;
+        _pageController.jumpToPage(index);
       }),
       child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          padding: const EdgeInsets.all(10),
-          // height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: currentCategory == index ? Colors.white : Colors.transparent,
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                imgUrl,
-
-                fit: BoxFit.cover,
+        margin: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.all(10),
+        // height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: category.isActive ? Colors.white : Colors.transparent,
+        ),
+        child: Column(
+          children: [
+            Image.asset(
+              category.imgUrl,
+              color: category.isActive ? primaryColor : Colors.black,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              category.title,
+              style: TextStyle(
+                fontWeight:
+                    category.isActive ? FontWeight.w600 : FontWeight.w500,
+                color: category.isActive ? primaryColor : Colors.black,
               ),
-              const SizedBox(height: 5),
-              Text(
-                text,
-                style: TextStyle(
-                  fontWeight: currentCategory == index
-                      ? FontWeight.w600
-                      : FontWeight.w500,
-                ),
-              )
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -103,7 +120,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
               SizedBox(
                 width: size.width / 1.25,
                 height: size.height * 0.83,
-                child: categoriesList[currentCategory]
+                child: PageView(
+                  controller: _pageController,
+                  scrollDirection: Axis.vertical,
+                  onPageChanged: (value) {
+                    setState(() {
+                      for (var catItem in categories) {
+                        catItem.setActive(false);
+                      }
+                      categories[value].setActive(true);
+                    });
+                  },
+                  children: categoriesList,
+                ),
               ),
               Container(
                 width: size.width / 5,
@@ -115,11 +144,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   itemCount: categories.length,
-                  itemBuilder: (context, index) => kCategoryContainer(
-                    categories[index]['title']!,
-                    categories[index]['img']!,
-                    index,
-                  ),
+                  itemBuilder: (context, index) =>
+                      kCategoryContainer(categories[index], index),
                 ),
               ),
             ],
