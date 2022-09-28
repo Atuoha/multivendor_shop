@@ -60,7 +60,7 @@ class _BottomNavState extends State<BottomNav> {
             icon: Icons.favorite_border,
           ),
           TabItem(
-            icon: Icons.search,
+            icon: Icons.category_outlined,
           ),
           TabItem(
             icon: Icons.storefront,

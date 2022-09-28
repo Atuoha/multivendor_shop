@@ -31,7 +31,10 @@ class _EntryScreenState extends State<EntryScreen> {
 
   _navigateToSplash() {
     // Routing to Splash
-    Navigator.of(context).pushNamed(SplashScreen.routeName);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      SplashScreen.routeName,
+      (route) => false,
+    );
   }
 
   _navigateToAuthOrHome() {
@@ -39,10 +42,16 @@ class _EntryScreenState extends State<EntryScreen> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         // home screen
-        Navigator.of(context).pushNamed(BottomNav.routeName);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          BottomNav.routeName,
+          (route) => false,
+        );
       } else {
         // auth screen
-        Navigator.of(context).pushNamed(AccountTypeSelector.routeName);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AccountTypeSelector.routeName,
+          (route) => false,
+        );
       }
     });
   }
