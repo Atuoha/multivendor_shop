@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import 'product_categories/children.dart';
+import 'product_categories/men.dart';
+import 'product_categories/others.dart';
+import 'product_categories/sneakers.dart';
+import 'product_categories/women.dart';
 import '../../components/search_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -17,11 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/slides/slide_1.jpg',
     'assets/images/slides/slide_2.jpg',
     'assets/images/slides/slide_3.jpg',
-    'assets/images/slides/slide_11.jpg',
-    'assets/images/slides/slide_12.jpg',
-    'assets/images/slides/slide_13.jpg',
-    'assets/images/slides/slide_14.jpg',
-    'assets/images/slides/slide_3.jpg',
     'assets/images/slides/slide_4.jpg',
     'assets/images/slides/slide_5.jpg',
     'assets/images/slides/slide_6.jpg',
@@ -29,13 +29,26 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/slides/slide_8.jpg',
     'assets/images/slides/slide_9.jpg',
     'assets/images/slides/slide_10.jpg',
+    'assets/images/slides/slide_11.jpg',
+    'assets/images/slides/slide_12.jpg',
+    'assets/images/slides/slide_13.jpg',
+    'assets/images/slides/slide_14.jpg',
   ];
 
   var categories = [
     'Men',
     'Women',
     'Children',
-    'Other',
+    'Sneakers',
+    'Others'
+  ];
+
+  final categoriesList = const [
+    MenWears(),
+    WomenWears(),
+    ChildrenWears(),
+    Sneakers(),
+    Others(),
   ];
 
   Widget kText(String text, int index) {
@@ -43,11 +56,15 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => setState(() {
         currentTabIndex = index;
       }),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: currentTabIndex == index ? Colors.black : Colors.grey,
-          fontSize: currentTabIndex == index ? 28 : 22,
+      child: Padding(
+        padding: const EdgeInsets.only(right:18.0),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: currentTabIndex == index ? Colors.black : Colors.grey,
+            fontSize: currentTabIndex == index ? 37 : 28,
+            fontWeight: currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -80,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
             options: CarouselOptions(
               viewportFraction: 0.7,
               aspectRatio: 2.0,
-              height: 300,
+              height: 250,
               enlargeStrategy: CenterPageEnlargeStrategy.scale,
               enlargeCenterPage: true,
               autoPlay: true,
@@ -88,16 +105,20 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: slides.length,
             itemBuilder: (context, index, i) => kSlideContainer(slides[index]),
           ),
-          const SizedBox(height: 10),
-          Container(
-            height: 50,
-            color: Colors.red,
+          const SizedBox(height: 15),
+          SizedBox(
+            height: 40,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
               itemBuilder: (context, index) => kText(categories[index], index),
             ),
-          )
+          ),
+
+          Container(
+            height: MediaQuery.of(context).size.height /2.54,
+            child: categoriesList[currentTabIndex],
+          ),
         ],
       ),
     );

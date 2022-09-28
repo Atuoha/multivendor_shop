@@ -131,11 +131,29 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     SizedBox(
                       height: size.height / 1.3,
-                      child: ListView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(''),
+                          Image.asset(
+                            'assets/images/sp2.png',
+                            width: 250,
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Opps! No items to display',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 18,
+                            ),
+                          )
                         ],
                       ),
+
+                      //child: ListView(
+                      //   children: [
+                      //     Text(''),
+                      //   ],
+                      // ),
                     ),
                     Expanded(
                       child: SizedBox(
@@ -193,8 +211,7 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 ),
 
-                // child: Center(
-                //   child: Column(
+                // child:  Column(
                 //     mainAxisAlignment: MainAxisAlignment.center,
                 //     children: [
                 //       Image.asset(
@@ -211,7 +228,6 @@ class _CartScreenState extends State<CartScreen> {
                 //       )
                 //     ],
                 //   ),
-                // ),
               ),
             ],
           ),
