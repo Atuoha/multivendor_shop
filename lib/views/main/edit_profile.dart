@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../components/loading.dart';
 import '../../constants/colors.dart';
-import '../../controllers/image_picker.dart';
+import '../../helpers/image_picker.dart';
 
 // for fields
 enum Field {

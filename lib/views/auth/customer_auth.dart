@@ -10,7 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../components/loading.dart';
 import '../../constants/colors.dart';
-import '../../controllers/image_picker.dart';
+import '../../helpers/image_picker.dart';
 import '../main/bottomNav.dart';
 
 // for fields
