@@ -80,6 +80,11 @@ flutter:
     - assets/images/
     - assets/images/slides/
     - assets/images/category_imgs/
+    - assets/images/products/men/
+    - assets/images/products/women/
+    - assets/images/products/children/
+    - assets/images/products/other/
+    - assets/images/products/sneakers/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

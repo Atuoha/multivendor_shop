@@ -58,7 +58,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         _pageController.jumpToPage(index);
       }),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(10),
         // height: 40,
         width: 40,
