@@ -10,28 +10,62 @@ class MenWears extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        const Text(
-          'For Men',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+        const Padding(
+          padding: EdgeInsets.only(top: 10.0),
+          child: Text(
+            'Products for men',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
           ),
         ),
         const SizedBox(height: 10),
         SizedBox(
           height: size.height * 0.73,
           child: GridView.count(
-            crossAxisCount: 3,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
+            padding: const EdgeInsets.only(top: 5),
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
             children: List.generate(
-              10,
+              50,
               (index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal:10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Container(
-                  color: primaryColor,
-                  height: 60,
-                  width: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: primaryColor,
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child:
+                            Image.asset('assets/images/products/men/13_1.jpg'),
+                      ),
+                      const Positioned(
+                        bottom: 2,
+                        left: 5,
+                        child: Text(
+                          'Cloth',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Icon(
+                          Icons.favorite_border,
+                          color: Colors.red,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

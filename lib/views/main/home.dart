@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import 'home_product_categories/children.dart';
-import 'home_product_categories/men.dart';
-import 'home_product_categories/others.dart';
-import 'home_product_categories/sneakers.dart';
-import 'home_product_categories/women.dart';
+import 'product_categories/children.dart';
+import 'product_categories/men.dart';
+import 'product_categories/others.dart';
+import 'product_categories/sneakers.dart';
+import 'product_categories/women.dart';
 import '../../components/search_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -86,40 +86,42 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.only(
         top: 50,
       ),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 18),
-            child: const SearchBox(),
-          ),
-          const SizedBox(height: 20),
-          CarouselSlider.builder(
-            options: CarouselOptions(
-              viewportFraction: 0.7,
-              aspectRatio: 2.0,
-              height: 250,
-              enlargeStrategy: CenterPageEnlargeStrategy.scale,
-              enlargeCenterPage: true,
-              autoPlay: true,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 18),
+              child: const SearchBox(),
             ),
-            itemCount: slides.length,
-            itemBuilder: (context, index, i) => kSlideContainer(slides[index]),
-          ),
-          const SizedBox(height: 15),
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) => kText(categories[index], index),
+            const SizedBox(height: 20),
+            CarouselSlider.builder(
+              options: CarouselOptions(
+                viewportFraction: 0.7,
+                aspectRatio: 2.0,
+                height: 250,
+                enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                enlargeCenterPage: true,
+                autoPlay: true,
+              ),
+              itemCount: slides.length,
+              itemBuilder: (context, index, i) => kSlideContainer(slides[index]),
             ),
-          ),
+            const SizedBox(height: 15),
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
+                itemBuilder: (context, index) => kText(categories[index], index),
+              ),
+            ),
 
-          Container(
-            height: MediaQuery.of(context).size.height /2.54,
-            child: categoriesList[currentTabIndex],
-          ),
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height /1,
+              child: categoriesList[currentTabIndex],
+            ),
+          ],
+        ),
       ),
     );
   }
