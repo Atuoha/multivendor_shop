@@ -13,6 +13,10 @@ class WomenCategories extends StatelessWidget {
       'Gown',
       'Sandals',
       'Cooperate',
+      'Blouse',
+      'Shirt',
+      'Trousers',
+      'Jeans'
     ];
 
     return Column(

@@ -11,11 +11,9 @@ class ChildrenCategories extends StatelessWidget {
 
     final categories = [
       'Jeans',
-      'Shirt',
       'Inner',
       'Jacket',
       'Cardigan',
-      'Shirt',
       'Joggers',
       'T-shirt',
       'Gown',
