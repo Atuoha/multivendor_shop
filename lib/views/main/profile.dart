@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // fetch user credentials
   _fetchUserDetails() async {
-    credential = await firebase.collection('users').doc(userId).get();
+    credential = await firebase.collection('customers').doc(userId).get();
     setState(() {
       isLoading = false;
     });

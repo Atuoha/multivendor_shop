@@ -216,7 +216,7 @@ class _AuthState extends State<Auth> {
               'address': '',
             });
           } else {
-            firebase.collection('users').doc(credential.user!.uid).set({
+            firebase.collection('customers').doc(credential.user!.uid).set({
               'fullname': _fullnameController.text.trim(),
               'email': _emailController.text.trim(),
               'image': downloadUrl,
@@ -300,7 +300,7 @@ class _AuthState extends State<Auth> {
         });
       } else {
         await FirebaseFirestore.instance
-            .collection('users')
+            .collection('customers')
             .doc(logCredential.user!.uid)
             .set(
           {
