@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import '../../../constants/colors.dart';
 
-class SubCategory extends StatelessWidget {
-  const SubCategory({
+class SubCategoryScreen extends StatelessWidget {
+  const SubCategoryScreen({
     Key? key,
     required this.category,
     required this.subCategory,
@@ -27,7 +27,7 @@ class SubCategory extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: Text(
-          '$subCategory for $category',
+          '$subCategory - $category',
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w500,

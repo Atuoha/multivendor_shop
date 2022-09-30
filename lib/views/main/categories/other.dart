@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../sub_category/sub_category.dart';
 
 class OtherCategories extends StatelessWidget {
   const OtherCategories({Key? key}) : super(key: key);
@@ -38,35 +39,45 @@ class OtherCategories extends StatelessWidget {
             padding: const EdgeInsets.only(top: 5),
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: primaryColor,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SubCategoryScreen(
+                      category: 'Other',
+                      subCategory: categories[index],
+                    ),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 115,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/sub_categories/others/${categories[index].toLowerCase()}.jpg',
-                            ),
-                            fit: BoxFit.cover
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 115,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                'assets/images/sub_categories/others/${categories[index].toLowerCase()}.jpg',
+                              ),
+                              fit: BoxFit.cover
+                          ),
                         ),
                       ),
-                    ),
-                    const  SizedBox(height: 2),
-                    Text(
-                      categories[index],
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      const  SizedBox(height: 2),
+                      Text(
+                        categories[index],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

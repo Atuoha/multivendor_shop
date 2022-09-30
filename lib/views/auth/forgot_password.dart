@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multivendor_shop/views/auth/customer_auth.dart';
+import 'package:multivendor_shop/views/auth/auth.dart';
 import '../../constants/colors.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -27,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   // navigate to sign in screen
   _navigateToSignIn() {
-    Navigator.of(context).pushNamed(CustomerAuth.routeName);
+    Navigator.of(context).pushNamed(Auth.routeName);
   }
 
   @override

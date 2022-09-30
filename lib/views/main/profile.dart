@@ -6,7 +6,7 @@ import 'package:multivendor_shop/constants/colors.dart';
 import 'package:multivendor_shop/views/main/edit_profile.dart';
 import '../../components/kDividerText.dart';
 import '../../components/kListTile.dart';
-import '../auth/customer_auth.dart';
+import '../auth/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _logout() {
     auth.signOut();
-    Navigator.of(context).pushNamed(CustomerAuth.routeName);
+    Navigator.of(context).pushNamed(Auth.routeName);
   }
 
   _editProfile() {

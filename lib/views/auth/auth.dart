@@ -20,18 +20,20 @@ enum Field {
   password,
 }
 
-
-
-class CustomerAuth extends StatefulWidget {
+class Auth extends StatefulWidget {
   static const routeName = '/customer-auth';
 
-  const CustomerAuth({Key? key}) : super(key: key);
+  const Auth({
+    Key? key,
+    this.isSellerReg = false,
+  }) : super(key: key);
+  final bool isSellerReg;
 
   @override
-  State<CustomerAuth> createState() => _CustomerAuthState();
+  State<Auth> createState() => _AuthState();
 }
 
-class _CustomerAuthState extends State<CustomerAuth> {
+class _AuthState extends State<Auth> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _fullnameController = TextEditingController();
@@ -204,14 +206,26 @@ class _CustomerAuthState extends State<CustomerAuth> {
         try {
           await storageRef.putFile(file);
           var downloadUrl = await storageRef.getDownloadURL();
-          firebase.collection('users').doc(credential.user!.uid).set({
-            'fullname': _fullnameController.text.trim(),
-            'email': _emailController.text.trim(),
-            'image': downloadUrl,
-            'auth-type': 'email',
-            'phone': '',
-            'address': '',
-          });
+          if (widget.isSellerReg) {
+            firebase.collection('sellers').doc(credential.user!.uid).set({
+              'fullname': _fullnameController.text.trim(),
+              'email': _emailController.text.trim(),
+              'image': downloadUrl,
+              'auth-type': 'email',
+              'phone': '',
+              'address': '',
+            });
+          } else {
+            firebase.collection('users').doc(credential.user!.uid).set({
+              'fullname': _fullnameController.text.trim(),
+              'email': _emailController.text.trim(),
+              'image': downloadUrl,
+              'auth-type': 'email',
+              'phone': '',
+              'address': '',
+            });
+          }
+
           isLoadingFnc();
         } catch (e) {
           if (kDebugMode) {
@@ -268,21 +282,39 @@ class _CustomerAuthState extends State<CustomerAuth> {
       // send username, email, and phone number to firestore
       var logCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(logCredential.user!.uid)
-          .set(
-        {
-          'fullname': googleUser!.displayName,
-          'email': googleUser.email,
-          'image': googleUser.photoUrl,
-          'auth-type': 'google',
-          'phone': '',
-          'address': '',
-        },
-      ).then((value) {
-        isLoadingFnc();
-      });
+      if (widget.isSellerReg) {
+        await FirebaseFirestore.instance
+            .collection('sellers')
+            .doc(logCredential.user!.uid)
+            .set(
+          {
+            'fullname': googleUser!.displayName,
+            'email': googleUser.email,
+            'image': googleUser.photoUrl,
+            'auth-type': 'google',
+            'phone': '',
+            'address': '',
+          },
+        ).then((value) {
+          isLoadingFnc();
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(logCredential.user!.uid)
+            .set(
+          {
+            'fullname': googleUser!.displayName,
+            'email': googleUser.email,
+            'image': googleUser.photoUrl,
+            'auth-type': 'google',
+            'phone': '',
+            'address': '',
+          },
+        ).then((value) {
+          isLoadingFnc();
+        });
+      }
     } on FirebaseAuthException catch (e) {
       var error = 'An error occurred. Check credentials!';
       if (e.message != null) {
@@ -355,7 +387,13 @@ class _CustomerAuthState extends State<CustomerAuth> {
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    isLogin ? 'Customer Signin ' : 'Customer Signup',
+                    widget.isSellerReg
+                        ? isLogin
+                            ? 'Seller Signin '
+                            : 'Seller Signup'
+                        : isLogin
+                            ? 'Customer Signin '
+                            : 'Customer Signup',
                     style: const TextStyle(
                       color: primaryColor,
                       fontSize: 18,

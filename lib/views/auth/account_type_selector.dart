@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multivendor_shop/views/auth/customer_auth.dart';
+import 'package:multivendor_shop/views/auth/auth.dart';
 import '../../constants/colors.dart';
 
 class AccountTypeSelector extends StatefulWidget {
@@ -57,10 +57,20 @@ class _AccountTypeSelectorState extends State<AccountTypeSelector> {
   _navigateToSection() {
     if (typeIndex == 0) {
       // registering as a customer
-      Navigator.of(context).pushNamed(CustomerAuth.routeName);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const Auth(),
+        ),
+      );
     } else {
       // registering as a seller
-
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const Auth(
+            isSellerReg: true,
+          ),
+        ),
+      );
     }
   }
 
