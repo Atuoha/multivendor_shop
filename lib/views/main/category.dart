@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
 import '../../models/category.dart';
+import 'categories/children.dart';
+import 'categories/men.dart';
+import 'categories/other.dart';
+import 'categories/sneakers.dart';
+import 'categories/women.dart';
 import 'product_categories/children.dart';
 import 'product_categories/men.dart';
 import 'product_categories/others.dart';
@@ -42,11 +47,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
   ];
 
   final categoriesList = const [
-    MenWears(),
-    WomenWears(),
-    ChildrenWears(),
-    Sneakers(),
-    Others(),
+    MenCategories(),
+    WomenCategories(),
+    ChildrenCategories(),
+    SneakersCategories(),
+    OtherCategories(),
   ];
 
   Widget kCategoryContainer(
