@@ -6,9 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../components/loading.dart';
-import '../../constants/colors.dart';
-import '../../helpers/image_picker.dart';
+import '../../../components/loading.dart';
+import '../../../constants/colors.dart';
+import '../../../helpers/image_picker.dart';
 
 // for fields
 enum Field {

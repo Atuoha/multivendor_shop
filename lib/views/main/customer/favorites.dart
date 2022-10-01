@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../components/search_box.dart';
-import '../../constants/colors.dart';
+import '../../../components/search_box.dart';
+import '../../../constants/colors.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);

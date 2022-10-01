@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import 'product_categories/children.dart';
-import 'product_categories/men.dart';
-import 'product_categories/others.dart';
-import 'product_categories/sneakers.dart';
-import 'product_categories/women.dart';
-import '../../components/search_box.dart';
+import '../product_categories/children.dart';
+import '../product_categories/men.dart';
+import '../product_categories/others.dart';
+import '../product_categories/sneakers.dart';
+import '../product_categories/women.dart';
+import '../../../components/search_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {

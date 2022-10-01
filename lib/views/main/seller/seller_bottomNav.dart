@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import 'package:multivendor_shop/views/main/cart.dart';
-import 'package:multivendor_shop/views/main/favorites.dart';
-import 'package:multivendor_shop/views/main/home.dart';
-import 'package:multivendor_shop/views/main/profile.dart';
-import 'package:multivendor_shop/views/main/category.dart';
-import 'package:multivendor_shop/views/main/shop.dart';
+import 'cart.dart';
+import 'favorites.dart';
+import 'home.dart';
+import 'profile.dart';
+import 'category.dart';
+import 'shop.dart';
 
-class BottomNav extends StatefulWidget {
-  static const routeName = '/home';
+class SellerBottomNav extends StatefulWidget {
+  static const routeName = '/seller-home';
 
-  const BottomNav({Key? key}) : super(key: key);
+  const SellerBottomNav({Key? key}) : super(key: key);
 
   @override
-  State<BottomNav> createState() => _BottomNavState();
+  State<SellerBottomNav> createState() => _SellerBottomNavState();
 }
 
-class _BottomNavState extends State<BottomNav> {
+class _SellerBottomNavState extends State<SellerBottomNav> {
   var currentPageIndex = 0;
   final _pages = const [
     HomeScreen(),

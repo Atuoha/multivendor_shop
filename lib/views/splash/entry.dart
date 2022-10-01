@@ -7,7 +7,7 @@ import 'package:multivendor_shop/views/splash/splash.dart';
 import '../../components/loading.dart';
 import '../../constants/colors.dart';
 import '../auth/account_type_selector.dart';
-import '../main/bottomNav.dart';
+import '../main/customer/customer_bottomNav.dart';
 
 class EntryScreen extends StatefulWidget {
   static const routeName = '/entry-screen';
@@ -43,7 +43,7 @@ class _EntryScreenState extends State<EntryScreen> {
       if (user != null) {
         // home screen
         Navigator.of(context).pushNamedAndRemoveUntil(
-          BottomNav.routeName,
+          CustomerBottomNav.routeName,
           (route) => false,
         );
       } else {

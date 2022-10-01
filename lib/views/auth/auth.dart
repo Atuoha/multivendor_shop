@@ -11,7 +11,7 @@ import 'package:multivendor_shop/views/auth/forgot_password.dart';
 import '../../components/loading.dart';
 import '../../constants/colors.dart';
 import '../../helpers/image_picker.dart';
-import '../main/bottomNav.dart';
+import '../main/customer/customer_bottomNav.dart';
 
 // for fields
 enum Field {
@@ -160,7 +160,7 @@ class _AuthState extends State<Auth> {
       isLoading = true;
     });
     Timer(const Duration(seconds: 5), () {
-      Navigator.of(context).pushNamed(BottomNav.routeName);
+      Navigator.of(context).pushNamed(CustomerBottomNav.routeName);
     });
   }
 

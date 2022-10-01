@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import 'package:multivendor_shop/views/main/edit_profile.dart';
-import '../../components/kDividerText.dart';
-import '../../components/kListTile.dart';
-import '../auth/auth.dart';
+import 'edit_profile.dart';
+import '../../../components/kDividerText.dart';
+import '../../../components/kListTile.dart';
+import '../../auth/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // fetch user credentials
   _fetchUserDetails() async {
-    credential = await firebase.collection('customers').doc(userId).get();
+    credential = await firebase.collection('sellers').doc(userId).get();
     setState(() {
       isLoading = false;
     });
