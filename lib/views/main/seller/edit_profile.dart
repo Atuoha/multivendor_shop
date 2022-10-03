@@ -49,7 +49,7 @@ class _EditProfileState extends State<EditProfile> {
 
   // fetch user credentials
   _fetchUserDetails() async {
-    credential = await firebase.collection('customers').doc(userId).get();
+    credential = await firebase.collection('sellers').doc(userId).get();
     _emailController.text = credential['email'];
     _fullnameController.text = credential['fullname'];
     _phoneController.text = credential['phone'];

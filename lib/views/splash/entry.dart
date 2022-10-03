@@ -8,6 +8,7 @@ import '../../components/loading.dart';
 import '../../constants/colors.dart';
 import '../auth/account_type_selector.dart';
 import '../main/customer/customer_bottomNav.dart';
+import '../main/seller/seller_bottomNav.dart';
 
 class EntryScreen extends StatefulWidget {
   static const routeName = '/entry-screen';
@@ -42,8 +43,10 @@ class _EntryScreenState extends State<EntryScreen> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         // home screen
+        //TODO: Check for Customer or Seller Account
         Navigator.of(context).pushNamedAndRemoveUntil(
-          CustomerBottomNav.routeName,
+          // CustomerBottomNav.routeName,
+          SellerBottomNav.routeName,
           (route) => false,
         );
       } else {

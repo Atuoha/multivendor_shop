@@ -17,8 +17,6 @@ Future<void> main() async {
   );
 }
 
-
-
 class MultiVendor extends StatefulWidget {
   const MultiVendor({Key? key}) : super(key: key);
 
@@ -27,9 +25,6 @@ class MultiVendor extends StatefulWidget {
 }
 
 class _MultiVendorState extends State<MultiVendor> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -19,12 +19,12 @@ class SellerBottomNav extends StatefulWidget {
 
 class _SellerBottomNavState extends State<SellerBottomNav> {
   var currentPageIndex = 0;
-  final _pages = const [
-    HomeScreen(),
+  final _pages =  [
+    const HomeScreen(),
     DashboardScreen(),
-    CategoryScreen(),
-    ShopScreen(),
-    ProfileScreen(),
+    const CategoryScreen(),
+    const ShopScreen(),
+    const ProfileScreen(),
   ];
 
   selectPage(var index) {
