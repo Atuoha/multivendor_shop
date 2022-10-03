@@ -35,43 +35,71 @@ class _UploadProductState extends State<UploadProduct> {
   final ImagePicker _picker = ImagePicker();
 
   final List<String> category = [
-    'men',
-    'women',
-    'children',
-    'sneakers',
-    'others'
+    'Men',
+    'Women',
+    'Children',
+    'Sneakers',
+    'Others'
   ];
 
-  final List<String> subCategory = [
-    'trousers',
-    'shirts',
-    'jeans',
-    'gown',
-    'nike',
-    'adidas',
-    'fila',
-    'blouse'
-        'inner',
-    'cardigan',
-    'joggers',
-    'cooperate',
-    'coat',
-    'vest',
-    'jacket',
-    'short',
-    'reebok',
-    'laptop',
-    'gaming',
-    'headset',
-    'camera',
-    'bag',
-    'watch'
+  final menCategories = [
+    'Sub Category',
+    'Jeans',
+    'Suit',
+    'Short',
+    'Jacket',
+    'Coat',
+    'Shirt',
+    'Vest',
+    'T-shirt',
   ];
+
+  final childrenCategories = [
+    'Sub Category',
+    'Jeans',
+    'Inner',
+    'Jacket',
+    'Cardigan',
+    'Joggers',
+    'T-shirt',
+    'Gown',
+  ];
+
+  final womenCategories = [
+    'Sub Category',
+    'Gown',
+    'Sandals',
+    'Cooperate',
+    'Blouse',
+    'Shirt',
+    'Trousers',
+    'Jeans'
+  ];
+
+  final otherCategories = [
+    'Sub Category',
+    'Headset',
+    'Laptop',
+    'Gaming',
+    'Camera',
+    'Bag',
+    'Watch',
+  ];
+
+  final sneakersCategories = [
+    'Sub Category',
+    'Adidas',
+    'Fila',
+    'Nike',
+    'Reebok',
+  ];
+
   var isInit = true;
   var currentImage = 0;
   var currentCategory = '';
   var currentSubCategory = '';
   var isLoading = false;
+  List<String> subCategory = [];
 
   @override
   void initState() {
@@ -81,8 +109,9 @@ class _UploadProductState extends State<UploadProduct> {
   @override
   void didChangeDependencies() {
     if (isInit) {
+      subCategory = menCategories;
       currentCategory = category[0];
-      currentSubCategory = subCategory[0];
+      currentSubCategory = menCategories[0];
     }
     setState(() {
       isInit = false;
@@ -149,6 +178,37 @@ class _UploadProductState extends State<UploadProduct> {
         setState(() {
           currentValue = value.toString();
         });
+
+        switch (value) {
+          case 'Men':
+            setState(() {
+              subCategory = menCategories;
+            });
+            break;
+          case 'Women':
+            setState(() {
+              subCategory = womenCategories;
+            });
+            break;
+
+          case 'Children':
+            setState(() {
+              subCategory = childrenCategories;
+            });
+            break;
+
+          case 'Others':
+            setState(() {
+              subCategory = otherCategories;
+            });
+            break;
+
+          case 'Sneakers':
+            setState(() {
+              subCategory = sneakersCategories;
+            });
+            break;
+        }
       },
     );
   }
