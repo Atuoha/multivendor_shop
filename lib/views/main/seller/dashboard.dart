@@ -40,11 +40,11 @@ class DashboardScreen extends StatelessWidget {
                 mainAxisSpacing: 25,
                 children: List.generate(
                   6,
-                  (index) => Container(
-                    decoration: BoxDecoration(
-                      color: litePrimary.withOpacity(0.1),
+                  (index) => Card(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                    color: Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
