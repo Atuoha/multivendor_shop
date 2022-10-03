@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import 'package:multivendor_shop/views/auth/account_type_selector.dart';
 import 'edit_profile.dart';
 import '../../../components/kDividerText.dart';
 import '../../../components/kListTile.dart';
@@ -25,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // fetch user credentials
   _fetchUserDetails() async {
-    credential = await firebase.collection('sellers').doc(userId).get();
+    credential = await firebase.collection('customers').doc(userId).get();
     setState(() {
       isLoading = false;
     });
@@ -96,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _logout() {
     auth.signOut();
-    Navigator.of(context).pushNamed(Auth.routeName);
+    Navigator.of(context).pushNamed(AccountTypeSelector.routeName);
   }
 
   _editProfile() {

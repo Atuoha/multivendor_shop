@@ -1,5 +1,6 @@
 import 'package:multivendor_shop/views/auth/auth.dart';
 import 'package:multivendor_shop/views/auth/forgot_password.dart';
+import 'package:multivendor_shop/views/main/seller/seller_bottomNav.dart';
 
 import '../views/auth/account_type_selector.dart';
 import '../views/main/customer/customer_bottomNav.dart';
@@ -12,5 +13,7 @@ var routes = {
   AccountTypeSelector.routeName: (context) => const AccountTypeSelector(),
   SplashScreen.routeName:(context)=>const SplashScreen(),
   EntryScreen.routeName:(context)=> const EntryScreen(),
-  CustomerBottomNav.routeName:(context)=>const CustomerBottomNav()
+  CustomerBottomNav.routeName:(context)=>const CustomerBottomNav(),
+  SellerBottomNav.routeName:(context)=>const SellerBottomNav(),
+
 };

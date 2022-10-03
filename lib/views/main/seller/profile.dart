@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import '../../auth/account_type_selector.dart';
 import 'edit_profile.dart';
 import '../../../components/kListTile.dart';
 import '../../auth/auth.dart';
@@ -95,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _logout() {
     auth.signOut();
-    Navigator.of(context).pushNamed(Auth.routeName);
+    Navigator.of(context).pushNamed(AccountTypeSelector.routeName);
   }
 
   _editProfile() {

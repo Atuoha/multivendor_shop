@@ -12,6 +12,7 @@ import '../../components/loading.dart';
 import '../../constants/colors.dart';
 import '../../helpers/image_picker.dart';
 import '../main/customer/customer_bottomNav.dart';
+import '../main/seller/seller_bottomNav.dart';
 
 // for fields
 enum Field {
@@ -160,7 +161,13 @@ class _AuthState extends State<Auth> {
       isLoading = true;
     });
     Timer(const Duration(seconds: 5), () {
-      Navigator.of(context).pushNamed(CustomerBottomNav.routeName);
+      if (widget.isSellerReg) {
+        // seller account
+        Navigator.of(context).pushNamed(SellerBottomNav.routeName);
+      } else {
+        // customer account
+        Navigator.of(context).pushNamed(CustomerBottomNav.routeName);
+      }
     });
   }
 

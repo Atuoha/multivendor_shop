@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import 'cart.dart';
-import 'favorites.dart';
+import 'dashboard.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'category.dart';
@@ -22,10 +21,9 @@ class _SellerBottomNavState extends State<SellerBottomNav> {
   var currentPageIndex = 0;
   final _pages = const [
     HomeScreen(),
-    FavoriteScreen(),
+    DashboardScreen(),
     CategoryScreen(),
     ShopScreen(),
-    CartScreen(),
     ProfileScreen(),
   ];
 
@@ -57,16 +55,13 @@ class _SellerBottomNavState extends State<SellerBottomNav> {
             icon: Icons.house_siding,
           ),
           TabItem(
-            icon: Icons.favorite_border,
+            icon: Icons.dashboard_outlined,
           ),
           TabItem(
             icon: Icons.category_outlined,
           ),
           TabItem(
             icon: Icons.storefront,
-          ),
-          TabItem(
-            icon: Icons.shopping_cart_outlined,
           ),
           TabItem(
             icon: Icons.person_outline,
