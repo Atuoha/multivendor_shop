@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,11 +51,27 @@ class _UploadProductState extends State<UploadProduct> {
     'adidas',
     'fila',
     'blouse'
+        'inner',
+    'cardigan',
+    'joggers',
+    'cooperate',
+    'coat',
+    'vest',
+    'jacket',
+    'short',
+    'reebok',
+    'laptop',
+    'gaming',
+    'headset',
+    'camera',
+    'bag',
+    'watch'
   ];
   var isInit = true;
   var currentImage = 0;
   var currentCategory = '';
   var currentSubCategory = '';
+  var isLoading = false;
 
   @override
   void initState() {
@@ -203,7 +221,45 @@ class _UploadProductState extends State<UploadProduct> {
     );
   }
 
-  _uploadProduct() {}
+// snackbar for error message
+  showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: primaryColor,
+        action: SnackBarAction(
+          onPressed: () => Navigator.of(context).pop(),
+          label: 'Dismiss',
+          textColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  // loading fnc
+  isLoadingFnc() {
+    setState(() {
+      isLoading = true;
+    });
+    Timer(const Duration(seconds: 5), () {
+      Navigator.of(context).pop();
+    });
+  }
+
+  _uploadProduct() {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+    var valid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+    if (!valid || productImage == null) {
+      showSnackBar('Product image can not be empty!');
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +284,7 @@ class _UploadProductState extends State<UploadProduct> {
         ),
         actions: [
           IconButton(
-            onPressed: _uploadProduct(),
+            onPressed: () => _uploadProduct(),
             icon: const Icon(
               Icons.save,
               color: Colors.white,
@@ -237,7 +293,10 @@ class _UploadProductState extends State<UploadProduct> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.only(
+          top: 18.0,
+          left: 18,
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -268,12 +327,31 @@ class _UploadProductState extends State<UploadProduct> {
                       onTap: () => _selectPhoto(),
                       child: CircleAvatar(
                         backgroundColor: litePrimary,
-                        backgroundImage: const AssetImage(
-                          'assets/images/holder.png',
+                        child: const Icon(
+                          Icons.photo,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  productImage == null
+                      ? const SizedBox.shrink()
+                      : Positioned(
+                          bottom: 10,
+                          left: 10,
+                          child: GestureDetector(
+                            onTap: () => setState(() {
+                              productImage = null;
+                            }),
+                            child: CircleAvatar(
+                              backgroundColor: litePrimary,
+                              child: const Icon(
+                                Icons.delete_forever,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
                 ],
               ),
               const SizedBox(height: 10),
@@ -308,55 +386,58 @@ class _UploadProductState extends State<UploadProduct> {
                       ),
                     ),
               const SizedBox(height: 25),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    kTextField(
-                      _titleController,
-                      'Gucci Bag',
-                      'Product Title',
-                      Field.title,
-                      1,
-                    ),
-                    const SizedBox(height: 20),
-                    kDropDownField(
-                      category,
-                      currentCategory,
-                      'Category',
-                    ),
-                    const SizedBox(height: 20),
-                    kDropDownField(
-                      subCategory,
-                      currentSubCategory,
-                      'Sub Category',
-                    ),
-                    const SizedBox(height: 20),
-                    kTextField(
-                      _priceController,
-                      '100',
-                      'Product Price',
-                      Field.price,
-                      1,
-                    ),
-                    const SizedBox(height: 20),
-                    kTextField(
-                      _quantityController,
-                      '10',
-                      'Product Quantity',
-                      Field.quantity,
-                      1,
-                    ),
-                    const SizedBox(height: 20),
-                    kTextField(
-                      _descriptionController,
-                      'This product is...',
-                      'Product Description',
-                      Field.description,
-                      3,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(right: 18.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      kTextField(
+                        _titleController,
+                        'Gucci Bag',
+                        'Product Title',
+                        Field.title,
+                        1,
+                      ),
+                      const SizedBox(height: 20),
+                      kDropDownField(
+                        category,
+                        currentCategory,
+                        'Category',
+                      ),
+                      const SizedBox(height: 20),
+                      kDropDownField(
+                        subCategory,
+                        currentSubCategory,
+                        'Sub Category',
+                      ),
+                      const SizedBox(height: 20),
+                      kTextField(
+                        _priceController,
+                        '100',
+                        'Product Price',
+                        Field.price,
+                        1,
+                      ),
+                      const SizedBox(height: 20),
+                      kTextField(
+                        _quantityController,
+                        '10',
+                        'Product Quantity',
+                        Field.quantity,
+                        1,
+                      ),
+                      const SizedBox(height: 20),
+                      kTextField(
+                        _descriptionController,
+                        'This product is...',
+                        'Product Description',
+                        Field.description,
+                        3,
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ],
