@@ -295,17 +295,17 @@ class _UploadProductState extends State<UploadProduct> {
         'category': currentCategory,
         'sub_category': currentSubCategory,
         'available': true,
+        'discount': 0,
         'images': imageDownloadLinks,
         'upload-date': DateTime.now()
-      }).then(
-        (value) => {
-          _formKey.currentState!.reset(),
-          setState(() {
-            productImages = [];
-            isLoading == false;
-          }),
-        },
-      );
+      }).whenComplete(() => {
+            _formKey.currentState!.reset(),
+            setState(() {
+              productImages = [];
+              imageDownloadLinks = [];
+              isLoading == false;
+            }),
+          });
     } on FirebaseException catch (e) {
       showSnackBar('Error occurred! ${e.message}');
     } catch (e) {
