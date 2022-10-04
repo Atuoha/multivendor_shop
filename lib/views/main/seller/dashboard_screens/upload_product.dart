@@ -130,6 +130,8 @@ class _UploadProductState extends State<UploadProduct> {
           currentValue = value.toString();
           if (dropDownType == DropDownType.category) {
             currentCategory = value.toString();
+          } else {
+            currentSubCategory = value.toString();
           }
         });
 
@@ -137,34 +139,34 @@ class _UploadProductState extends State<UploadProduct> {
           case 'Men':
             setState(() {
               subCategory = menCategories;
-              currentSubCategory = value.toString();
+              currentSubCategory = menCategories[0];
             });
             break;
           case 'Women':
             setState(() {
               subCategory = womenCategories;
-              currentSubCategory = value.toString();
+              currentSubCategory = womenCategories[0];
             });
             break;
 
           case 'Children':
             setState(() {
               subCategory = childrenCategories;
-              currentSubCategory = value.toString();
+              currentSubCategory = childrenCategories[0];
             });
             break;
 
           case 'Others':
             setState(() {
               subCategory = otherCategories;
-              currentSubCategory = value.toString();
+              currentSubCategory = otherCategories[0];
             });
             break;
 
           case 'Sneakers':
             setState(() {
               subCategory = sneakersCategories;
-              currentSubCategory = value.toString();
+              currentSubCategory = sneakersCategories[0];
             });
             break;
         }
@@ -265,15 +267,23 @@ class _UploadProductState extends State<UploadProduct> {
     var valid = _formKey.currentState!.validate();
     _formKey.currentState!.save();
     FocusScope.of(context).unfocus();
-    if (!valid || productImages == null) {
+
+    if (!valid) {
+      showSnackBar('Fill all fields completely!');
+      return null;
+    }
+
+    if (productImages == null) {
       showSnackBar('Product image can not be empty!');
       return null;
     }
+
     List<String> imageDownloadLinks = [];
+    setState(() {
+      isLoading = true;
+    });
+
     try {
-      setState(() {
-        isLoading == true;
-      });
       for (var image in productImages!) {
         var storageRef = FirebaseStorage.instance
             .ref('product-images/${path.basename(image.path)}');
@@ -303,7 +313,7 @@ class _UploadProductState extends State<UploadProduct> {
             setState(() {
               productImages = [];
               imageDownloadLinks = [];
-              isLoading == false;
+              isLoading = false;
             }),
           });
     } on FirebaseException catch (e) {
