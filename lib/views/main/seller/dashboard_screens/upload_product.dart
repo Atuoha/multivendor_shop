@@ -29,6 +29,8 @@ enum Field {
   description,
 }
 
+enum DropDownType { category, subCategory }
+
 class _UploadProductState extends State<UploadProduct> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
@@ -89,6 +91,7 @@ class _UploadProductState extends State<UploadProduct> {
 
   // custom dropdown
   Widget kDropDownField(
+    DropDownType dropDownType,
     List<String> list,
     String currentValue,
     String label,
@@ -125,7 +128,9 @@ class _UploadProductState extends State<UploadProduct> {
       onChanged: (value) {
         setState(() {
           currentValue = value.toString();
-          currentCategory = value.toString();
+          if (dropDownType == DropDownType.category) {
+            currentCategory = value.toString();
+          }
         });
 
         switch (value) {
@@ -255,19 +260,6 @@ class _UploadProductState extends State<UploadProduct> {
     );
   }
 
-  // loading fnc
-  isLoadingFnc() {
-    setState(() {
-      isLoading = true;
-    });
-    Timer(const Duration(seconds: 5), () {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackBar('Product successfully uploaded!');
-    });
-  }
-
   _uploadProduct() async {
     var userId = FirebaseAuth.instance.currentUser!.uid;
     var valid = _formKey.currentState!.validate();
@@ -279,6 +271,9 @@ class _UploadProductState extends State<UploadProduct> {
     }
     List<String> imageDownloadLinks = [];
     try {
+      setState(() {
+        isLoading == true;
+      });
       for (var image in productImages!) {
         var storageRef = FirebaseStorage.instance
             .ref('product-images/${path.basename(image.path)}');
@@ -307,8 +302,8 @@ class _UploadProductState extends State<UploadProduct> {
           _formKey.currentState!.reset(),
           setState(() {
             productImages = [];
+            isLoading == false;
           }),
-          isLoadingFnc(),
         },
       );
     } on FirebaseException catch (e) {
@@ -462,12 +457,14 @@ class _UploadProductState extends State<UploadProduct> {
                             ),
                             const SizedBox(height: 20),
                             kDropDownField(
+                              DropDownType.category,
                               category,
                               currentCategory,
                               'Category',
                             ),
                             const SizedBox(height: 20),
                             kDropDownField(
+                              DropDownType.subCategory,
                               subCategory,
                               currentSubCategory,
                               'Sub Category',
