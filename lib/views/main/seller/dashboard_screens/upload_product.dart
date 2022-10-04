@@ -278,8 +278,8 @@ class _UploadProductState extends State<UploadProduct> {
     List<String> imageDownloadLinks = [];
     try {
       for (var image in productImages!) {
-        var storageRef =
-            FirebaseStorage.instance.ref('product-images/${path.basename}');
+        var storageRef = FirebaseStorage.instance
+            .ref('product-images/${path.basename(image.path)}');
 
         await storageRef.putFile(File(image.path)).whenComplete(() async {
           await storageRef.getDownloadURL().then(
@@ -290,13 +290,16 @@ class _UploadProductState extends State<UploadProduct> {
 
       FirebaseFirestore.instance.collection('products').doc().set({
         'prod_id': DateTime.now().toString(),
+        'seller_id': FirebaseAuth.instance.currentUser!.uid,
         'title': _titleController.text.trim(),
         'price': _priceController.text.trim(),
         'quantity': _quantityController.text.trim(),
         'description': _descriptionController.text.trim(),
         'category': currentCategory,
         'sub_category': currentSubCategory,
+        'available': true,
         'images': imageDownloadLinks,
+        'upload-date': DateTime.now()
       }).then(
         (value) => {
           _formKey.currentState!.reset(),
