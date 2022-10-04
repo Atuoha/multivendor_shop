@@ -37,6 +37,7 @@ class _UploadProductState extends State<UploadProduct> {
   final _descriptionController = TextEditingController();
   List<XFile>? productImages;
   final ImagePicker _picker = ImagePicker();
+  final userId = FirebaseAuth.instance.currentUser!.uid;
 
   var isInit = true;
   var currentImage = 0;
@@ -124,6 +125,7 @@ class _UploadProductState extends State<UploadProduct> {
       onChanged: (value) {
         setState(() {
           currentValue = value.toString();
+          currentCategory = value.toString();
         });
 
         switch (value) {
@@ -288,9 +290,9 @@ class _UploadProductState extends State<UploadProduct> {
         });
       }
 
-      FirebaseFirestore.instance.collection('products').doc().set({
+      FirebaseFirestore.instance.collection('products').doc(userId).set({
         'prod_id': DateTime.now().toString(),
-        'seller_id': FirebaseAuth.instance.currentUser!.uid,
+        'seller_id': userId,
         'title': _titleController.text.trim(),
         'price': _priceController.text.trim(),
         'quantity': _quantityController.text.trim(),
