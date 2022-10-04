@@ -137,34 +137,34 @@ class _UploadProductState extends State<UploadProduct> {
           case 'Men':
             setState(() {
               subCategory = menCategories;
-              currentSubCategory = menCategories[0];
+              currentSubCategory = value.toString();
             });
             break;
           case 'Women':
             setState(() {
               subCategory = womenCategories;
-              currentSubCategory = womenCategories[0];
+              currentSubCategory = value.toString();
             });
             break;
 
           case 'Children':
             setState(() {
               subCategory = childrenCategories;
-              currentSubCategory = childrenCategories[0];
+              currentSubCategory = value.toString();
             });
             break;
 
           case 'Others':
             setState(() {
               subCategory = otherCategories;
-              currentSubCategory = otherCategories[0];
+              currentSubCategory = value.toString();
             });
             break;
 
           case 'Sneakers':
             setState(() {
               subCategory = sneakersCategories;
-              currentSubCategory = sneakersCategories[0];
+              currentSubCategory = value.toString();
             });
             break;
         }
@@ -285,7 +285,7 @@ class _UploadProductState extends State<UploadProduct> {
         });
       }
 
-      FirebaseFirestore.instance.collection('products').doc(userId).set({
+      FirebaseFirestore.instance.collection('products').doc().set({
         'prod_id': DateTime.now().toString(),
         'seller_id': userId,
         'title': _titleController.text.trim(),
