@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../constants/colors.dart';
+import '../../../../utilities/categories_list.dart';
 
 class UploadProduct extends StatefulWidget {
   static const routeName = '/upload_product';
@@ -29,70 +30,8 @@ class _UploadProductState extends State<UploadProduct> {
   final _priceController = TextEditingController();
   final _quantityController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _categoryController = TextEditingController();
-  final _subCategoryController = TextEditingController();
   List<XFile>? productImage;
   final ImagePicker _picker = ImagePicker();
-
-  final List<String> category = [
-    'Men',
-    'Women',
-    'Children',
-    'Sneakers',
-    'Others'
-  ];
-
-  final menCategories = [
-    'Sub Category',
-    'Jeans',
-    'Suit',
-    'Short',
-    'Jacket',
-    'Coat',
-    'Shirt',
-    'Vest',
-    'T-shirt',
-  ];
-
-  final childrenCategories = [
-    'Sub Category',
-    'Jeans',
-    'Inner',
-    'Jacket',
-    'Cardigan',
-    'Joggers',
-    'T-shirt',
-    'Gown',
-  ];
-
-  final womenCategories = [
-    'Sub Category',
-    'Gown',
-    'Sandals',
-    'Cooperate',
-    'Blouse',
-    'Shirt',
-    'Trousers',
-    'Jeans'
-  ];
-
-  final otherCategories = [
-    'Sub Category',
-    'Headset',
-    'Laptop',
-    'Gaming',
-    'Camera',
-    'Bag',
-    'Watch',
-  ];
-
-  final sneakersCategories = [
-    'Sub Category',
-    'Adidas',
-    'Fila',
-    'Nike',
-    'Reebok',
-  ];
 
   var isInit = true;
   var currentImage = 0;
@@ -183,29 +122,34 @@ class _UploadProductState extends State<UploadProduct> {
           case 'Men':
             setState(() {
               subCategory = menCategories;
+              currentSubCategory = menCategories[0];
             });
             break;
           case 'Women':
             setState(() {
               subCategory = womenCategories;
+              currentSubCategory = womenCategories[0];
             });
             break;
 
           case 'Children':
             setState(() {
               subCategory = childrenCategories;
+              currentSubCategory = childrenCategories[0];
             });
             break;
 
           case 'Others':
             setState(() {
               subCategory = otherCategories;
+              currentSubCategory = otherCategories[0];
             });
             break;
 
           case 'Sneakers':
             setState(() {
               subCategory = sneakersCategories;
+              currentSubCategory = sneakersCategories[0];
             });
             break;
         }
