@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants/colors.dart';
-import '../sub_category/sub_category.dart';
+import '../../../utilities/k_gridview.dart';
 
 class MenCategories extends StatelessWidget {
   const MenCategories({Key? key}) : super(key: key);
@@ -9,6 +7,8 @@ class MenCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    var imageLocation = 'assets/images/sub_categories/men/';
+    var category = 'Men';
 
     final categories = [
       'Jeans',
@@ -36,57 +36,10 @@ class MenCategories extends StatelessWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: size.height * 0.73,
-          child: GridView.builder(
-            itemCount: categories.length,
-            padding: const EdgeInsets.only(top: 5),
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SubCategoryScreen(
-                      category: 'Men',
-                      subCategory: categories[index],
-                    ),
-                  ),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: primaryColor,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 115,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/sub_categories/men/${categories[index].toLowerCase()}.jpg',
-                              ),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        categories[index],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              crossAxisCount: 2,
-            ),
+          child: KGridView(
+            categories: categories,
+            category: category,
+            imageLocation: imageLocation,
           ),
         ),
       ],
