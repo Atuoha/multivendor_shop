@@ -306,10 +306,11 @@ class _UploadProductState extends State<UploadProduct> {
         'sub_category': currentSubCategory,
         'available': true,
         'discount': 0,
+        'isFav': false,
         'images': imageDownloadLinks,
         'upload-date': DateTime.now()
       }).whenComplete(() => {
-            _formKey.currentState!.reset(),
+            // _formKey.currentState!.reset(),
             setState(() {
               productImages = [];
               imageDownloadLinks = [];

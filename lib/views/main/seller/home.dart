@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/constants/colors.dart';
-import '../product_categories/children.dart';
-import '../product_categories/men.dart';
-import '../product_categories/others.dart';
-import '../product_categories/sneakers.dart';
-import '../product_categories/women.dart';
+import 'product_categories/children.dart';
+import 'product_categories/men.dart';
+import 'product_categories/others.dart';
+import 'product_categories/sneakers.dart';
+import 'product_categories/women.dart';
 import '../../../components/search_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -35,13 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/slides/slide_14.jpg',
   ];
 
-  var categories = [
-    'Men',
-    'Women',
-    'Children',
-    'Sneakers',
-    'Others'
-  ];
+  var categories = ['Men', 'Women', 'Children', 'Sneakers', 'Others'];
 
   final categoriesList = const [
     MenWears(),
@@ -57,13 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
         currentTabIndex = index;
       }),
       child: Padding(
-        padding: const EdgeInsets.only(right:18.0),
+        padding: const EdgeInsets.only(right: 18.0),
         child: Text(
           text,
           style: TextStyle(
             color: currentTabIndex == index ? Colors.black : Colors.grey,
             fontSize: currentTabIndex == index ? 37 : 28,
-            fontWeight: currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
+            fontWeight:
+                currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
           ),
         ),
       ),
@@ -71,11 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget kSlideContainer(String imgUrl) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(
-        imgUrl,
-        fit: BoxFit.cover,
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset(
+          imgUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -104,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 autoPlay: true,
               ),
               itemCount: slides.length,
-              itemBuilder: (context, index, i) => kSlideContainer(slides[index]),
+              itemBuilder: (context, index, i) =>
+                  kSlideContainer(slides[index]),
             ),
             const SizedBox(height: 15),
             SizedBox(
@@ -112,13 +112,19 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: categories.length,
-                itemBuilder: (context, index) => kText(categories[index], index),
+                itemBuilder: (context, index) =>
+                    kText(categories[index], index),
               ),
             ),
-
             SizedBox(
-              height: MediaQuery.of(context).size.height /1,
-              child: categoriesList[currentTabIndex],
+              height: MediaQuery.of(context).size.height / 1,
+              child: Column(
+                children: [
+                  categoriesList[currentTabIndex],
+                 const  SizedBox(height: 10,),
+                  Text('Other Contents can come in.....')
+                ],
+              ),
             ),
           ],
         ),
