@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:multivendor_shop/constants/colors.dart';
-import 'product_categories/children.dart';
-import 'product_categories/men.dart';
-import 'product_categories/others.dart';
-import 'product_categories/sneakers.dart';
-import 'product_categories/women.dart';
+import '../product_categories/children.dart';
+import '../product_categories/men.dart';
+import '../product_categories/others.dart';
+import '../product_categories/sneakers.dart';
+import '../product_categories/women.dart';
 import '../../../components/search_box.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -68,7 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget kSlideContainer(String imgUrl) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Image.asset(
@@ -121,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   categoriesList[currentTabIndex],
-                 const  SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text('Other Contents can come in.....')
                 ],
               ),
