@@ -309,14 +309,14 @@ class _UploadProductState extends State<UploadProduct> {
         'isFav': false,
         'images': imageDownloadLinks,
         'upload-date': DateTime.now()
-      }).whenComplete(() => {
-            // _formKey.currentState!.reset(),
-            setState(() {
-              productImages = [];
-              imageDownloadLinks = [];
-              isLoading = false;
-            }),
-          });
+      }).then((value) => {
+        // _formKey.currentState!.reset(),
+        setState(() {
+          productImages = [];
+          imageDownloadLinks = [];
+          isLoading = false;
+        }),
+      });
     } on FirebaseException catch (e) {
       showSnackBar('Error occurred! ${e.message}');
     } catch (e) {

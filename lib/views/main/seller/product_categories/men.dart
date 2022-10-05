@@ -11,8 +11,10 @@ class MenWears extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final firestore = FirebaseFirestore.instance;
 
-    final Stream<QuerySnapshot> productStream =
-        firestore.collection('products').snapshots();
+    final Stream<QuerySnapshot> productStream = firestore
+        .collection('products')
+        .where('category', isEqualTo: 'Men')
+        .snapshots();
 
     // toggle isFav
     void toggleIsFav(bool status, var id) {
@@ -21,7 +23,7 @@ class MenWears extends StatelessWidget {
     }
 
     // add to cart
-    void addToCart(){
+    void addToCart() {
       // TODO: Implement add to cart
     }
 
@@ -47,6 +49,24 @@ class MenWears extends StatelessWidget {
                     color: primaryColor,
                     kSize: 30,
                   ),
+                );
+              }
+
+              if (snapshot.data!.docs.isEmpty) {
+                return Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/sad.png',
+                      width: 150,
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'No data available!',
+                      style: TextStyle(
+                        color: primaryColor,
+                      ),
+                    )
+                  ],
                 );
               }
 
@@ -116,8 +136,7 @@ class MenWears extends StatelessWidget {
                             top: 10,
                             right: 10,
                             child: GestureDetector(
-                              onTap: () =>
-                                  toggleIsFav(data['isFav'], data.id),
+                              onTap: () => toggleIsFav(data['isFav'], data.id),
                               child: CircleAvatar(
                                 backgroundColor: litePrimary,
                                 child: Icon(
@@ -133,8 +152,7 @@ class MenWears extends StatelessWidget {
                             top: 10,
                             left: 10,
                             child: GestureDetector(
-                              onTap: () =>
-                              addToCart(),
+                              onTap: () => addToCart(),
                               child: CircleAvatar(
                                 backgroundColor: litePrimary,
                                 child: const Icon(

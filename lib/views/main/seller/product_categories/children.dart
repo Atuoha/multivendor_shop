@@ -12,7 +12,7 @@ class ChildrenWears extends StatelessWidget {
     final firestore = FirebaseFirestore.instance;
 
     final Stream<QuerySnapshot> productStream =
-    firestore.collection('products').snapshots();
+    firestore.collection('products').where('category', isEqualTo: 'Children').snapshots();
 
     // toggle isFav
     void toggleIsFav(bool status, var id) {
@@ -47,6 +47,24 @@ class ChildrenWears extends StatelessWidget {
                     color: primaryColor,
                     kSize: 30,
                   ),
+                );
+              }
+
+              if (snapshot.data!.docs.isEmpty) {
+                return Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/sad.png',
+                      width: 150,
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'No data available!',
+                      style: TextStyle(
+                        color: primaryColor,
+                      ),
+                    )
+                  ],
                 );
               }
 

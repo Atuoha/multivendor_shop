@@ -11,8 +11,10 @@ class WomenWears extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final firestore = FirebaseFirestore.instance;
 
-    final Stream<QuerySnapshot> productStream =
-    firestore.collection('products').snapshots();
+    final Stream<QuerySnapshot> productStream = firestore
+        .collection('products')
+        .where('category', isEqualTo: 'Women')
+        .snapshots();
 
     // toggle isFav
     void toggleIsFav(bool status, var id) {
@@ -21,7 +23,7 @@ class WomenWears extends StatelessWidget {
     }
 
     // add to cart
-    void addToCart(){
+    void addToCart() {
       // TODO: Implement add to cart
     }
 
@@ -32,9 +34,9 @@ class WomenWears extends StatelessWidget {
           child: StreamBuilder<QuerySnapshot>(
             stream: productStream,
             builder: (
-                BuildContext context,
-                AsyncSnapshot<QuerySnapshot> snapshot,
-                ) {
+              BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot,
+            ) {
               if (snapshot.hasError) {
                 return const Center(
                   child: Text('An error occurred ): '),
@@ -47,6 +49,24 @@ class WomenWears extends StatelessWidget {
                     color: primaryColor,
                     kSize: 30,
                   ),
+                );
+              }
+
+              if (snapshot.data!.docs.isEmpty) {
+                return Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/sad.png',
+                      width: 150,
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'No data available!',
+                      style: TextStyle(
+                        color: primaryColor,
+                      ),
+                    )
+                  ],
                 );
               }
 
@@ -116,8 +136,7 @@ class WomenWears extends StatelessWidget {
                             top: 10,
                             right: 10,
                             child: GestureDetector(
-                              onTap: () =>
-                                  toggleIsFav(data['isFav'], data.id),
+                              onTap: () => toggleIsFav(data['isFav'], data.id),
                               child: CircleAvatar(
                                 backgroundColor: litePrimary,
                                 child: Icon(
@@ -133,8 +152,7 @@ class WomenWears extends StatelessWidget {
                             top: 10,
                             left: 10,
                             child: GestureDetector(
-                              onTap: () =>
-                                  addToCart(),
+                              onTap: () => addToCart(),
                               child: CircleAvatar(
                                 backgroundColor: litePrimary,
                                 child: const Icon(
