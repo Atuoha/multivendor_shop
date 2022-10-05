@@ -54,6 +54,7 @@ class MenWears extends StatelessWidget {
 
               if (snapshot.data!.docs.isEmpty) {
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       'assets/images/sad.png',
