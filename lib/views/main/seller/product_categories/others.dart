@@ -53,8 +53,8 @@ class Others extends StatelessWidget {
               }
 
               if (snapshot.data!.docs.isEmpty) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                return
+                  Column(
                   children: [
                     Image.asset(
                       'assets/images/sad.png',
