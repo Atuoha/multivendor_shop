@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           text,
           style: TextStyle(
             color: currentTabIndex == index ? Colors.black : Colors.grey,
-            fontSize: currentTabIndex == index ? 37 : 28,
+            fontSize: currentTabIndex == index ? 27 : 18,
             fontWeight:
                 currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
           ),
@@ -92,12 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 18),
               child: const SearchBox(),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             CarouselSlider.builder(
               options: CarouselOptions(
-                viewportFraction: 0.7,
-                aspectRatio: 2.0,
-                height: 250,
+                viewportFraction: 0.4,
+                aspectRatio: 0.9,
+                height: 200,
                 enlargeStrategy: CenterPageEnlargeStrategy.scale,
                 enlargeCenterPage: true,
                 autoPlay: true,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index, i) =>
                   kSlideContainer(slides[index]),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             SizedBox(
               height: 40,
               child: ListView.builder(
