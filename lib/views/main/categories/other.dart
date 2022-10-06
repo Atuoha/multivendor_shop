@@ -7,7 +7,7 @@ class OtherCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var imageLocation = 'assets/images/sub_categories/other/';
+    var imageLocation = 'assets/images/sub_categories/others/';
     var category = 'Other';
 
     final categories = [

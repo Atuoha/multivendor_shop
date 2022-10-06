@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:multivendor_shop/constants/colors.dart';
 import '../product_categories/children.dart';
 import '../product_categories/men.dart';
 import '../product_categories/others.dart';

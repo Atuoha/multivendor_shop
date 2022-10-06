@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/views/main/product/details.dart';
 import '../components/loading.dart';
 import '../constants/colors.dart';
 
@@ -75,87 +76,95 @@ class KStreamBuilder extends StatelessWidget {
             var data = snapshot.data!.docs[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Container(
-                // height: 150,
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DetailsScreen(
+                      productId: data.id,
+                    ),
+                  ),
                 ),
-                child: Stack(
-                  children: [
-                    Card(
-                      elevation: 1.5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Stack(
+                    children: [
+                      Card(
+                        elevation: 1.5,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: NetworkImage(data['images'][0]),
-                            fit: BoxFit.cover,
+                        ),
+                        child: Container(
+                          height: 160,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: NetworkImage(data['images'][0]),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 4,
-                      left: 5,
-                      child: Text(
-                        data['title'],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 4,
-                      right: 5,
-                      child: Text(
-                        '\$${data['price']}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: GestureDetector(
-                        onTap: () => toggleIsFav(data['isFav'], data.id),
-                        child: CircleAvatar(
-                          backgroundColor: litePrimary,
-                          child: Icon(
-                            data['isFav']
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: Colors.redAccent,
+                      Positioned(
+                        bottom: 4,
+                        left: 5,
+                        child: Text(
+                          data['title'],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      left: 10,
-                      child: GestureDetector(
-                        onTap: () => addToCart(),
-                        child: CircleAvatar(
-                          backgroundColor: litePrimary,
-                          child: const Icon(
-                            Icons.shopping_cart_outlined,
-                            color: Colors.white,
+                      Positioned(
+                        bottom: 4,
+                        right: 5,
+                        child: Text(
+                          '\$${data['price']}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: primaryColor,
                           ),
                         ),
                       ),
-                    )
-                  ],
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: GestureDetector(
+                          onTap: () => toggleIsFav(data['isFav'], data.id),
+                          child: CircleAvatar(
+                            backgroundColor: litePrimary,
+                            child: Icon(
+                              data['isFav']
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: GestureDetector(
+                          onTap: () => addToCart(),
+                          child: CircleAvatar(
+                            backgroundColor: litePrimary,
+                            child: const Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
