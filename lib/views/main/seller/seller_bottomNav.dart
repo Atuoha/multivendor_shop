@@ -6,7 +6,7 @@ import 'dashboard.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'category.dart';
-import 'shop.dart';
+import 'store.dart';
 
 class SellerBottomNav extends StatefulWidget {
   static const routeName = '/seller-home';
@@ -23,7 +23,7 @@ class _SellerBottomNavState extends State<SellerBottomNav> {
     const HomeScreen(),
     DashboardScreen(),
     const CategoryScreen(),
-    const ShopScreen(),
+    const StoreScreen(),
     const ProfileScreen(),
   ];
 

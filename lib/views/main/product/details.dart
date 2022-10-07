@@ -21,7 +21,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   void showImageBottom() {
     showModalBottomSheet(
-      shape: const  RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(10),
           topLeft: Radius.circular(10),
@@ -278,69 +278,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       var data = snapshot.data!.docs[index];
                       return Padding(
                           padding: const EdgeInsets.only(right: 10.0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          child: GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DetailsScreen(
+                                  product: data,
+                                ),
+                              ),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Column(
-                                children: [
-                                  Stack(children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        data['images'][0],
-                                        width: 173,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Column(
+                                  children: [
+                                    Stack(children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          data['images'][0],
+                                          width: 173,
+                                        ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      right: 10,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            toggleIsFav(data['isFav'], data.id),
-                                        child: CircleAvatar(
-                                          backgroundColor: litePrimary,
-                                          child: Icon(
-                                            data['isFav']
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: Colors.redAccent,
+                                      Positioned(
+                                        top: 10,
+                                        right: 10,
+                                        child: GestureDetector(
+                                          onTap: () => toggleIsFav(
+                                              data['isFav'], data.id),
+                                          child: CircleAvatar(
+                                            backgroundColor: litePrimary,
+                                            child: Icon(
+                                              data['isFav']
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color: Colors.redAccent,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      left: 10,
-                                      child: GestureDetector(
-                                        onTap: () => addToCart(),
-                                        child: CircleAvatar(
-                                          backgroundColor: litePrimary,
-                                          child: const Icon(
-                                            Icons.shopping_cart_outlined,
-                                            color: Colors.white,
+                                      Positioned(
+                                        top: 10,
+                                        left: 10,
+                                        child: GestureDetector(
+                                          onTap: () => addToCart(),
+                                          child: CircleAvatar(
+                                            backgroundColor: litePrimary,
+                                            child: const Icon(
+                                              Icons.shopping_cart_outlined,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      )
+                                    ]),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          data['title'],
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text('\$${data['price']}')
+                                      ],
                                     )
-                                  ]),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        data['title'],
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      Text('\$${data['price']}')
-                                    ],
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ));
