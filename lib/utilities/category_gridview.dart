@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../views/main/sub_category/sub_category.dart';
 
-class KGridView extends StatelessWidget {
-  const KGridView({
+class CategoryGridView extends StatelessWidget {
+  const CategoryGridView({
     Key? key,
     required this.categories,
     required this.category,

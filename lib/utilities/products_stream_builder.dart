@@ -4,8 +4,8 @@ import 'package:multivendor_shop/views/main/product/details.dart';
 import '../components/loading.dart';
 import '../constants/colors.dart';
 
-class KStreamBuilder extends StatelessWidget {
-  const KStreamBuilder({
+class ProductStreamBuilder extends StatelessWidget {
+  const ProductStreamBuilder({
     Key? key,
     required this.productStream,
   }) : super(key: key);
@@ -80,7 +80,7 @@ class KStreamBuilder extends StatelessWidget {
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => DetailsScreen(
-                      productId: data.id,
+                      product: data,
                     ),
                   ),
                 ),

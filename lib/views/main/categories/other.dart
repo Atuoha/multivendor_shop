@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utilities/k_gridview.dart';
+import '../../../utilities/category_gridview.dart';
 
 class OtherCategories extends StatelessWidget {
   const OtherCategories({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class OtherCategories extends StatelessWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: size.height * 0.73,
-          child: KGridView(
+          child: CategoryGridView(
             categories: categories,
             category: category,
             imageLocation: imageLocation,

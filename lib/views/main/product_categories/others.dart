@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../../components/loading.dart';
 import '../../../../constants/colors.dart';
-import '../../../../utilities/k_stream_builder.dart';
+import '../../../../utilities/products_stream_builder.dart';
 
 class Others extends StatelessWidget {
   const Others({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class Others extends StatelessWidget {
       children: [
         SizedBox(
           height: size.height / 1.5,
-          child: KStreamBuilder(
+          child: ProductStreamBuilder(
             productStream: productStream,
           ),
         )

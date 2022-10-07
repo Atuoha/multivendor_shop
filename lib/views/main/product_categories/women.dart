@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../../../utilities/k_stream_builder.dart';
+import '../../../../utilities/products_stream_builder.dart';
 
 class WomenWears extends StatelessWidget {
   const WomenWears({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class WomenWears extends StatelessWidget {
       children: [
         SizedBox(
           height: size.height / 1.5,
-          child: KStreamBuilder(
+          child: ProductStreamBuilder(
             productStream: productStream,
           ),
         )
