@@ -6,7 +6,7 @@ import 'dashboard.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'category.dart';
-import 'store.dart';
+import '../store/store.dart';
 
 class SellerBottomNav extends StatefulWidget {
   static const routeName = '/seller-home';

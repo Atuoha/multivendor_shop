@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/views/main/store/store_details.dart';
 import '../../../components/loading.dart';
 import '../../../constants/colors.dart';
 
@@ -40,7 +41,7 @@ class _StoreScreenState extends State<StoreScreen> {
               ],
             ),
           ),
-          const SizedBox(height:10),
+          const SizedBox(height: 10),
           SizedBox(
             height: size.height / 1.25,
             child: StreamBuilder<QuerySnapshot>(
@@ -92,13 +93,13 @@ class _StoreScreenState extends State<StoreScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: GestureDetector(
-                        // onTap: () => Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DetailsScreen(
-                        //       product: data,
-                        //     ),
-                        //   ),
-                        // ),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => StoreDetails(
+                              store: data,
+                            ),
+                          ),
+                        ),
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(

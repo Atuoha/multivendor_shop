@@ -7,7 +7,7 @@ import 'favorites.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'category.dart';
-import 'shop.dart';
+import '../store/store.dart';
 
 class CustomerBottomNav extends StatefulWidget {
   static const routeName = '/customer-home';
@@ -24,7 +24,7 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
     HomeScreen(),
     FavoriteScreen(),
     CategoryScreen(),
-    ShopScreen(),
+    StoreScreen(),
     CartScreen(),
     ProfileScreen(),
   ];
