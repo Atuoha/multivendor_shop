@@ -19,6 +19,54 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  void showImageBottom() {
+    showModalBottomSheet(
+      shape: const  RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(10),
+          topLeft: Radius.circular(10),
+        ),
+      ),
+      context: context,
+      builder: (context) => SizedBox(
+        height: 500,
+        child: CarouselSlider.builder(
+          itemCount: widget.product['images'].length,
+          itemBuilder: (context, index, i) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(
+                  '${index + 1}/${widget.product['images'].length}',
+                  style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    widget.product['images'][index],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          options: CarouselOptions(
+            viewportFraction: 1,
+            aspectRatio: 1.5,
+            height: 500,
+            autoPlay: true,
+          ),
+        ),
+      ),
+    );
+  }
+
   // toggle isFav
   void toggleIsFav(bool status, var id) {
     final db = FirebaseFirestore.instance.collection('products').doc(id);
@@ -51,6 +99,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final Stream<QuerySnapshot> similarProducts = firestore
         .collection('products')
         .where('category', isEqualTo: product['category'])
+        .where('sub_category', isEqualTo: product['sub_category'])
         .snapshots();
 
     return Scaffold(
@@ -104,28 +153,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: size.height / 2,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
-              ),
-              child: Swiper(
-                autoplay: true,
-                pagination: const SwiperPagination(
-                  builder: SwiperPagination.dots,
-                ),
-                itemCount: product['images'].length,
-                itemBuilder: (context, index) => PhotoView(
-                  backgroundDecoration: const BoxDecoration(
-                    color: Colors.transparent,
+            GestureDetector(
+              onTap: () => showImageBottom(),
+              child: Container(
+                height: size.height / 2,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
                   ),
-                  maxScale: 100.0,
-                  imageProvider: NetworkImage(
-                    product['images'][index],
-                    // fit: BoxFit.cover,
+                ),
+                child: Swiper(
+                  autoplay: true,
+                  pagination: const SwiperPagination(
+                    builder: SwiperPagination.dots,
+                  ),
+                  itemCount: product['images'].length,
+                  itemBuilder: (context, index) => PhotoView(
+                    backgroundDecoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    maxScale: 100.0,
+                    imageProvider: NetworkImage(
+                      product['images'][index],
+                      // fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
