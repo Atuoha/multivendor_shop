@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import '../../../constants/colors.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:photo_view/photo_view.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -49,7 +50,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     final Stream<QuerySnapshot> similarProducts = firestore
         .collection('products')
-        .where('sub_category', isEqualTo: product['sub_category'])
+        .where('category', isEqualTo: product['category'])
         .snapshots();
 
     return Scaffold(
@@ -117,9 +118,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   builder: SwiperPagination.dots,
                 ),
                 itemCount: product['images'].length,
-                itemBuilder: (context, index) => Image.network(
-                  product['images'][index],
-                  fit: BoxFit.cover,
+                itemBuilder: (context, index) => PhotoView(
+                  backgroundDecoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  maxScale: 100.0,
+                  imageProvider: NetworkImage(
+                    product['images'][index],
+                    // fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/views/splash/entry.dart';
+import 'constants/colors.dart';
 import 'routes/routes.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +30,10 @@ class _MultiVendorState extends State<MultiVendor> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MultiVendor App',
-      theme: ThemeData(fontFamily: 'Roboto'),
+      theme: ThemeData(
+        fontFamily: 'Roboto',
+        primaryColor: primaryColor,
+      ),
       debugShowCheckedModeBanner: false,
       home: const EntryScreen(),
       routes: routes,
