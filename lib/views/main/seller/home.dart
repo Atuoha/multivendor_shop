@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../components/home_carousel.dart';
 import '../product_categories/children.dart';
 import '../product_categories/men.dart';
 import '../product_categories/others.dart';
@@ -17,22 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var currentTabIndex = 0;
 
-  var slides = [
-    'assets/images/slides/slide_1.jpg',
-    'assets/images/slides/slide_2.jpg',
-    'assets/images/slides/slide_4.jpg',
-    'assets/images/slides/slide_3.jpg',
-    'assets/images/slides/slide_5.jpg',
-    'assets/images/slides/slide_6.jpg',
-    'assets/images/slides/slide_7.jpg',
-    'assets/images/slides/slide_8.jpg',
-    'assets/images/slides/slide_9.jpg',
-    'assets/images/slides/slide_10.jpg',
-    'assets/images/slides/slide_11.jpg',
-    'assets/images/slides/slide_12.jpg',
-    'assets/images/slides/slide_13.jpg',
-    'assets/images/slides/slide_14.jpg',
-  ];
 
   var categories = ['Men', 'Women', 'Children', 'Sneakers', 'Others'];
 
@@ -64,21 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget kSlideContainer(String imgUrl) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(
-          imgUrl,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,19 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const SearchBox(),
             ),
             const SizedBox(height: 10),
-            CarouselSlider.builder(
-              options: CarouselOptions(
-                viewportFraction: 0.4,
-                aspectRatio: 0.9,
-                height: 200,
-                enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                enlargeCenterPage: true,
-                autoPlay: true,
-              ),
-              itemCount: slides.length,
-              itemBuilder: (context, index, i) =>
-                  kSlideContainer(slides[index]),
-            ),
+            buildCarouselSlider(),
             const SizedBox(height: 10),
             SizedBox(
               height: 40,
