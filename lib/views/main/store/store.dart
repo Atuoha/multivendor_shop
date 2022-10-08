@@ -31,7 +31,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   color: primaryColor,
                 ),
                 Text(
-                  'Store',
+                  'Stores',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 28,
