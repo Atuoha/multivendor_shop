@@ -246,7 +246,7 @@ class _EditProfileState extends State<EditProfile> {
 
         // TODO: persisting new details to firebase
         _auth.currentUser!.updateEmail(_emailController.text.trim());
-        firebase.collection('users').doc(userId).set({
+        firebase.collection('sellers').doc(userId).set({
           "email": _emailController.text.trim(),
           "fullname": _fullnameController.text.trim(),
           "phone": _phoneController.text.trim(),

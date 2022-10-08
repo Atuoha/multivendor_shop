@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
@@ -18,6 +19,16 @@ class StoreDetails extends StatefulWidget {
 class _StoreDetailsState extends State<StoreDetails> {
   void placeCall() {
     // TODO: Implement placeCall
+    if (kDebugMode) {
+      print(widget.store['phone']);
+    }
+  }
+
+  void sendMail(){
+    // TODO: Implement sendMail
+    if (kDebugMode) {
+      print(widget.store['email']);
+    }
   }
 
   @override
@@ -38,9 +49,9 @@ class _StoreDetailsState extends State<StoreDetails> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                store['phone'],
-                style: const TextStyle(
+              const Text(
+               'Contact us',
+                style:  TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -59,7 +70,30 @@ class _StoreDetailsState extends State<StoreDetails> {
                     color: Colors.white,
                   ),
                   label: const Text(
-                    'Place Call',
+                    'Place call',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    primary: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () => sendMail(),
+                  icon: const Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Send mail',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -111,19 +145,21 @@ class _StoreDetailsState extends State<StoreDetails> {
             ),
             const SizedBox(height: 10),
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        store['fullname'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),
-                      ),
-                      Text(store['address']),
-                    ])),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    store['fullname'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(store['address']),
+                ],
+              ),
+            ),
             SizedBox(
               height: size.height / 1,
               child: ProductStreamBuilder(
