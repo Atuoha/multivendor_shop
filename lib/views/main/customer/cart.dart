@@ -95,15 +95,27 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var cartData = Provider.of<CartData>(context, listen: false);
+
+    // remove from cart
+    void removeFromCart(String prodId) {
+      cartData.removeFromCart(prodId);
+    }
+
+    // increase item quantity
+    void increaseQuantity(String id) {
+      cartData.incrementProductQuantity(id);
+    }
+
+    // decrease item quantity
+    void reduceQuantity(String id) {
+      cartData.decrementProductQuantity(id);
+    }
+
     Size size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        0,
-        40,
-        0,
-        0,
-      ),
+      padding: const EdgeInsets.only(top: 40),
       child: Stack(
         children: [
           Column(
@@ -160,7 +172,7 @@ class _CartScreenState extends State<CartScreen> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: data.cartItemCount,
                                   itemBuilder: (context, index) {
-                                    var prod = data.cartItems[index];
+                                    var item = data.cartItems[index];
                                     return Card(
                                       elevation: 3,
                                       child: ListTile(
@@ -172,10 +184,10 @@ class _CartScreenState extends State<CartScreen> {
                                         leading: CircleAvatar(
                                           backgroundColor: primaryColor,
                                           backgroundImage:
-                                              NetworkImage(prod.prodImgUrl),
+                                              NetworkImage(item.prodImgUrl),
                                         ),
                                         title: Text(
-                                          prod.prodName,
+                                          item.prodName,
                                           style: const TextStyle(
                                             fontSize: 16,
                                           ),
@@ -184,12 +196,12 @@ class _CartScreenState extends State<CartScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('\$${prod.prodPrice}'),
+                                            Text('\$${item.totalPrice}'),
                                             const SizedBox(height: 5),
                                             Row(
                                               children: [
                                                 GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: ()=>increaseQuantity(item.id),
                                                   child: const Icon(
                                                     Icons.add,
                                                     color: primaryColor,
@@ -197,15 +209,15 @@ class _CartScreenState extends State<CartScreen> {
                                                 ),
                                                 const SizedBox(width: 10),
                                                 Text(
-                                                  '1',
-                                                  style: TextStyle(
+                                                  item.quantity.toString(),
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
                                                   ),
                                                 ),
                                                 const SizedBox(width: 10),
                                                 GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: ()=>reduceQuantity(item.id),
                                                   child: const Icon(
                                                     Icons.remove,
                                                     color: primaryColor,
@@ -216,8 +228,9 @@ class _CartScreenState extends State<CartScreen> {
                                           ],
                                         ),
                                         trailing: IconButton(
-                                          onPressed: null,
-                                          icon: Icon(
+                                          onPressed: () =>
+                                              removeFromCart(item.prodId),
+                                          icon: const Icon(
                                             Icons.delete_forever,
                                             color: primaryColor,
                                           ),

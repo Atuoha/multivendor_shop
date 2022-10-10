@@ -4,8 +4,8 @@ import 'package:multivendor_shop/models/cart.dart';
 class CartData extends ChangeNotifier {
   var totalPrice = 0.0;
 
-  bool isItemOnCart(String id) {
-    return _cartItems.any((item) => item.prodId == id);
+  bool isItemOnCart(String prodId) {
+    return _cartItems.any((item) => item.prodId == prodId);
   }
 
   void incrementProductQuantity(String id) {
@@ -21,6 +21,9 @@ class CartData extends ChangeNotifier {
       (item) => item.id == id,
     );
     cartItem.decrementQuantity();
+    if (cartItem.quantity < 1) {
+      _cartItems.remove(cartItem);
+    }
     notifyListeners();
   }
 
@@ -36,7 +39,6 @@ class CartData extends ChangeNotifier {
 
     _cartItems.add(item);
     notifyListeners();
-    print('ITEM IS SUCCESSFULLY ADDED TO CART');
   }
 
   void removeFromCart(String prodId) {
@@ -45,7 +47,6 @@ class CartData extends ChangeNotifier {
     );
     _cartItems.remove(cartItem);
     notifyListeners();
-    print('ITEM IS SUCCESSFULLY REMOVED FROM CART');
   }
 
   get cartItemCount {
