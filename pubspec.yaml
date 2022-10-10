@@ -49,6 +49,8 @@ dependencies:
   path: ^1.8.1
   flutter_swiper_null_safety: ^1.0.2
   photo_view: ^0.14.0
+  badges: ^2.0.3
+  floating_action_bubble: ^1.1.4
 
 dev_dependencies:
   flutter_test:

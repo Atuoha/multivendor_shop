@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multivendor_shop/views/main/product/details.dart';
 import '../components/loading.dart';
 import '../constants/colors.dart';
+import 'package:badges/badges.dart';
 
 class ProductStreamBuilder extends StatelessWidget {
   const ProductStreamBuilder({
@@ -162,7 +163,23 @@ class ProductStreamBuilder extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      Positioned(
+                        top: 60,
+                        left: 1,
+                        child: Badge(
+                          toAnimate: true,
+                          shape: BadgeShape.square,
+                          badgeColor: primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                          badgeContent: const Text(
+                            'New stocks',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

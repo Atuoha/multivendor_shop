@@ -6,6 +6,7 @@ import 'package:multivendor_shop/components/loading.dart';
 import '../../../constants/colors.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -18,7 +19,8 @@ class DetailsScreen extends StatefulWidget {
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<DetailsScreen>
+    with TickerProviderStateMixin {
   void showImageBottom() {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -80,6 +82,38 @@ class _DetailsScreenState extends State<DetailsScreen> {
     // TODO: Implement add to cart
   }
 
+  // navigate to store
+  void navigateToStore() {}
+
+  Animation<double>? _animation;
+  AnimationController? _animationController;
+  var isInit = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (isInit) {
+      _animationController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 260),
+      );
+
+      final curvedAnimation = CurvedAnimation(
+        curve: Curves.easeInOut,
+        parent: _animationController!,
+      );
+      _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+    }
+    setState(() {
+      isInit = false;
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -103,20 +137,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
         .snapshots();
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 4,
-        backgroundColor: primaryColor,
-        onPressed: () => addToCart(),
-        label: const Text(
-          'Add to cart',
-          style: TextStyle(
-            color: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionBubble(
+        items: <Bubble>[
+          Bubble(
+            title: "Add to cart",
+            iconColor: Colors.white,
+            bubbleColor: primaryColor,
+            icon: Icons.shopping_cart_outlined,
+            titleStyle: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+            onPress: () {
+              addToCart();
+              _animationController!.reverse();
+            },
           ),
-        ),
-        icon: const Icon(
-          Icons.shopping_cart_outlined,
-          color: Colors.white,
-        ),
+          Bubble(
+            title: "Check store",
+            iconColor: Colors.white,
+            bubbleColor: primaryColor,
+            icon: Icons.storefront,
+            titleStyle: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+            onPress: () {
+              navigateToStore();
+              _animationController!.reverse();
+            },
+          ),
+        ],
+        animation: _animation!,
+        onPress: () => _animationController!.isCompleted
+            ? _animationController!.reverse()
+            : _animationController!.forward(),
+        iconColor: Colors.white,
+        iconData: Icons.add,
+        backGroundColor: primaryColor,
       ),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
