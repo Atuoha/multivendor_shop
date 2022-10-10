@@ -31,7 +31,7 @@ Widget kSlideContainer(String imgUrl) {
 CarouselSlider buildCarouselSlider() {
   return CarouselSlider.builder(
     options: CarouselOptions(
-      viewportFraction: 0.7,
+      viewportFraction: 0.6,
       aspectRatio: 2.0,
       height: 250,
       enlargeStrategy: CenterPageEnlargeStrategy.scale,

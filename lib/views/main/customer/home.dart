@@ -17,8 +17,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var currentTabIndex = 0;
-
-  var categories = ['Men', 'Women', 'Children', 'Sneakers', 'Others'];
+  var categories = [
+    'Men',
+    'Women',
+    'Children',
+    'Sneakers',
+    'Others',
+  ];
 
   final categoriesList = const [
     MenWears(),
@@ -39,9 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
           text,
           style: TextStyle(
             color: currentTabIndex == index ? Colors.black : Colors.grey,
-            fontSize: currentTabIndex == index ? 37 : 28,
+            fontSize: currentTabIndex == index ? 27 : 18,
             fontWeight:
-                currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
+            currentTabIndex == index ? FontWeight.bold : FontWeight.w500,
           ),
         ),
       ),
@@ -61,9 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 18),
               child: const SearchBox(),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildCarouselSlider(),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             SizedBox(
               height: 40,
               child: ListView.builder(
@@ -75,7 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 1,
-              child: categoriesList[currentTabIndex],
+              child: Column(
+                children: [
+                  categoriesList[currentTabIndex],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text('Other Contents can come in.....')
+                ],
+              ),
             ),
           ],
         ),
