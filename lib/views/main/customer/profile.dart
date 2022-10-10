@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var firebase = FirebaseFirestore.instance;
   var auth = FirebaseAuth.instance;
   var userId = FirebaseAuth.instance.currentUser!.uid;
-  var credential;
+  DocumentSnapshot? credential;
   var isLoading = true;
   var isInit = true;
 
@@ -182,12 +182,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 radius: 20,
                                 backgroundColor: primaryColor,
                                 backgroundImage: NetworkImage(
-                                  credential['image'],
+                                  credential!['image'],
                                 ),
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                credential['fullname'],
+                                credential!['fullname'],
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.white,
@@ -214,11 +214,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               radius: 65,
                               backgroundColor: primaryColor,
                               backgroundImage: NetworkImage(
-                                credential['image'],
+                                credential!['image'],
                               ),
                             ),
                             Text(
-                              credential['fullname'],
+                              credential!['fullname'],
                               style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
@@ -335,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             KListTile(
                               title: 'Email Address',
-                              subtitle: credential['email'],
+                              subtitle: credential!['email'],
                               icon: Icons.email,
                             ),
                             const Padding(
@@ -344,9 +344,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             KListTile(
                               title: 'Phone Number',
-                              subtitle: credential['phone'] == ""
+                              subtitle: credential!['phone'] == ""
                                   ? 'Not set yet'
-                                  : credential['phone'],
+                                  : credential!['phone'],
                               icon: Icons.phone,
                             ),
                             const Padding(
@@ -355,9 +355,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             KListTile(
                               title: 'Delivery Address',
-                              subtitle: credential['address'] == ""
+                              subtitle: credential!['address'] == ""
                                   ? 'Not set yet'
-                                  : credential['address'],
+                                  : credential!['address'],
                               icon: Icons.location_pin,
                             ),
                           ],

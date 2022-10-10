@@ -42,7 +42,7 @@ class _EditProfileState extends State<EditProfile> {
   final _auth = FirebaseAuth.instance;
   final firebase = FirebaseFirestore.instance;
   var userId = FirebaseAuth.instance.currentUser!.uid;
-  var credential;
+  DocumentSnapshot? credential;
   var isLoading = true;
   var isInit = true;
   var changePassword = false;
@@ -50,10 +50,10 @@ class _EditProfileState extends State<EditProfile> {
   // fetch user credentials
   _fetchUserDetails() async {
     credential = await firebase.collection('sellers').doc(userId).get();
-    _emailController.text = credential['email'];
-    _fullnameController.text = credential['fullname'];
-    _phoneController.text = credential['phone'];
-    _addressController.text = credential['address'];
+    _emailController.text = credential!['email'];
+    _fullnameController.text = credential!['fullname'];
+    _phoneController.text = credential!['phone'];
+    _addressController.text = credential!['address'];
     setState(() {
       isLoading = false;
     });
@@ -322,7 +322,7 @@ class _EditProfileState extends State<EditProfile> {
                         : ProfileImagePicker(
                             selectImage: _selectPhoto,
                             isReg: false,
-                            imgUrl: credential['image'],
+                            imgUrl: credential!['image'],
                           ),
                     const SizedBox(height: 10),
                     Center(
