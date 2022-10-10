@@ -53,6 +53,7 @@ class CartData extends ChangeNotifier {
   }
 
   get cartTotalPrice {
+    totalPrice = 0.0;
     for (var item in _cartItems) {
       totalPrice += item.totalPrice;
     }
