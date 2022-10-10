@@ -17,9 +17,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var currentTabIndex = 0;
-
-
-  var categories = ['Men', 'Women', 'Children', 'Sneakers', 'Others'];
+  var categories = [
+    'Men',
+    'Women',
+    'Children',
+    'Sneakers',
+    'Others',
+  ];
 
   final categoriesList = const [
     MenWears(),
@@ -48,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
