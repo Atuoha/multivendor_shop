@@ -4,6 +4,7 @@ class Order {
   final String prodName;
   final String prodImg;
   final int quantity;
+  final int price;
 
   Order({
     required this.id,
@@ -11,5 +12,6 @@ class Order {
     required this.prodName,
     required this.prodImg,
     required this.quantity,
+    required this.price,
   });
 }

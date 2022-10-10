@@ -3,7 +3,7 @@ class CartItem {
   final String prodId;
   final String prodName;
   final String prodImgUrl;
-  double prodPrice;
+  final double prodPrice;
   double totalPrice;
   int quantity;
 

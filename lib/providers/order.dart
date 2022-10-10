@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/models/order.dart';
 
 class OrderData extends ChangeNotifier {
   var totalPrice = 0.0;
+
+  void addToOrder(Order order) {
+    Order item = Order(
+      id: DateTime.now().toString(),
+      prodId: order.prodId,
+      prodName: order.prodName,
+      price: order.price,
+      quantity: order.quantity,
+      prodImg: order.prodImg,
+    );
+
+    _orderItems.add(item);
+    notifyListeners();
+  }
 
   void removeFromOrder(String id) {
     var orderItem = _orderItems.firstWhere((item) => item.id == id);

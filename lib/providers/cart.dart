@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/models/cart.dart';
 
 class CartData extends ChangeNotifier {
   var totalPrice = 0.0;
@@ -12,6 +13,20 @@ class CartData extends ChangeNotifier {
   void decrementProductQuantity(String id) {
     var cartItem = _cartItems.firstWhere((item) => item.id == id);
     cartItem.decrementQuantity();
+    notifyListeners();
+  }
+
+  void addToCart(CartItem cart) {
+    CartItem item = CartItem(
+      id: DateTime.now().toString(),
+      prodId: cart.prodId,
+      prodName: cart.prodName,
+      prodPrice: cart.prodPrice,
+      prodImgUrl: cart.prodImgUrl,
+      totalPrice: cart.totalPrice,
+    );
+
+    _cartItems.add(item);
     notifyListeners();
   }
 
