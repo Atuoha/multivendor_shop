@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/providers/cart.dart';
+import 'package:multivendor_shop/providers/order.dart';
 import 'package:multivendor_shop/views/splash/entry.dart';
+import 'package:provider/provider.dart';
 import 'constants/colors.dart';
 import 'routes/routes.dart';
 import 'firebase_options.dart';
@@ -35,7 +36,17 @@ class _MultiVendorState extends State<MultiVendor> {
         primaryColor: primaryColor,
       ),
       debugShowCheckedModeBanner: false,
-      home: const EntryScreen(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => CartData(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => OrderData(),
+          ),
+        ],
+        child: const EntryScreen(),
+      ),
       routes: routes,
     );
   }
