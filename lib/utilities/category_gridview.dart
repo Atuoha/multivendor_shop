@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
-import '../views/main/sub_category/sub_category.dart';
+import '../views/main/product/sub_category_products.dart';
 
 class CategoryGridView extends StatelessWidget {
   const CategoryGridView({

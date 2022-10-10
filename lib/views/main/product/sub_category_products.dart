@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../constants/colors.dart';
+import '../../../utilities/products_stream_builder.dart';
 
 class SubCategoryScreen extends StatelessWidget {
   const SubCategoryScreen({
@@ -14,6 +16,12 @@ class SubCategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot> productStream = FirebaseFirestore.instance
+        .collection('products')
+        .where('category', isEqualTo: category)
+        .where('sub_category', isEqualTo: subCategory)
+        .snapshots();
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -34,9 +42,17 @@ class SubCategoryScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
-        child: Text(''),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 1.2,
+              child: ProductStreamBuilder(
+                productStream: productStream,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
