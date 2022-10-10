@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../constants/colors.dart';
 import '../../../utilities/products_stream_builder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StoreDetails extends StatefulWidget {
   const StoreDetails({
@@ -24,10 +24,17 @@ class _StoreDetailsState extends State<StoreDetails> {
     }
   }
 
-  void sendMail(){
+  void sendMail() {
     // TODO: Implement sendMail
     if (kDebugMode) {
       print(widget.store['email']);
+    }
+  }
+
+  void sendWhatsappMsg() {
+    // TODO: Implement sendWhatsappMsg
+    if (kDebugMode) {
+      print('sendWhatsappMsg');
     }
   }
 
@@ -49,10 +56,27 @@ class _StoreDetailsState extends State<StoreDetails> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-               'Contact us',
-                style:  TextStyle(
-                  fontWeight: FontWeight.bold,
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    primary: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () => sendWhatsappMsg(),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.whatsapp,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Whatsapp',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Directionality(
