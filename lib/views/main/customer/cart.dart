@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../constants/colors.dart';
+import '../../../providers/cart.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -126,107 +128,93 @@ class _CartScreenState extends State<CartScreen> {
               ),
               SizedBox(
                 height: size.height * 0.83,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: size.height / 1.3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/sp2.png',
-                            width: 250,
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Opps! No items to display',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 18,
-                            ),
-                          )
-                        ],
-                      ),
-
-                      //child: ListView(
-                      //   children: [
-                      //     Text(''),
-                      //   ],
-                      // ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Wrap(
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: const [
-                                Text(
-                                  'Total:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 22,
+                child: Consumer<CartData>(
+                  builder: (context, data, child) => Column(
+                    children: [
+                      SizedBox(
+                        height: size.height / 1.3,
+                        child: data.cartItemCount < 1
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/sp2.png',
+                                    width: 250,
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  '\$0.00',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 30,
-                                      color: primaryColor),
-                                ),
-                              ],
-                            ),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  primary: primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                icon: const Icon(
-                                  Icons.shopping_cart_checkout,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () =>
-                                    confirmOptions(Operation.checkoutCart),
-                                label: const Text(
-                                  'Checkout',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    'Opps! No items to display',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ],
+                              )
+                            : ListView.builder(
+                                itemCount: data.cartItemCount,
+                                itemBuilder: (context, index) => Text(
+                                  data.cartItems[index].prodName,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Total:',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '\$${data.totalPrice}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 30,
+                                      color: primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.shopping_cart_checkout,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () =>
+                                      confirmOptions(Operation.checkoutCart),
+                                  label: const Text(
+                                    'Checkout',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-
-                // child:  Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Image.asset(
-                //         'assets/images/sp2.png',
-                //         width: 250,
-                //       ),
-                //       const SizedBox(height: 10),
-                //       const Text(
-                //         'Opps! No items on the cart ',
-                //         style: TextStyle(
-                //           color: primaryColor,
-                //           fontSize: 18,
-                //         ),
-                //       )
-                //     ],
-                //   ),
               ),
             ],
           ),

@@ -15,7 +15,17 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    const MultiVendor(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CartData(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderData(),
+        ),
+      ],
+      child: const MultiVendor(),
+    ),
   );
 }
 
@@ -36,17 +46,7 @@ class _MultiVendorState extends State<MultiVendor> {
         primaryColor: primaryColor,
       ),
       debugShowCheckedModeBanner: false,
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => CartData(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => OrderData(),
-          ),
-        ],
-        child: const EntryScreen(),
-      ),
+      home: const EntryScreen(),
       routes: routes,
     );
   }

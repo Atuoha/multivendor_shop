@@ -19,7 +19,9 @@ class OrderData extends ChangeNotifier {
   }
 
   void removeFromOrder(String id) {
-    var orderItem = _orderItems.firstWhere((item) => item.id == id);
+    var orderItem = _orderItems.firstWhere(
+      (item) => item.id == id,
+    );
     _orderItems.remove(orderItem);
     notifyListeners();
   }

@@ -45,8 +45,8 @@ class _EntryScreenState extends State<EntryScreen> {
         // home screen
         //TODO: Check for Customer or Seller Account
         Navigator.of(context).pushNamedAndRemoveUntil(
-          // CustomerBottomNav.routeName,
-          SellerBottomNav.routeName,
+          CustomerBottomNav.routeName,
+          // SellerBottomNav.routeName,
           (route) => false,
         );
       } else {

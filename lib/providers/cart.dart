@@ -4,14 +4,22 @@ import 'package:multivendor_shop/models/cart.dart';
 class CartData extends ChangeNotifier {
   var totalPrice = 0.0;
 
+  bool isItemOnCart(String id) {
+    return _cartItems.any((item) => item.prodId == id);
+  }
+
   void incrementProductQuantity(String id) {
-    var cartItem = _cartItems.firstWhere((item) => item.id == id);
+    var cartItem = _cartItems.firstWhere(
+      (item) => item.id == id,
+    );
     cartItem.incrementQuantity();
     notifyListeners();
   }
 
   void decrementProductQuantity(String id) {
-    var cartItem = _cartItems.firstWhere((item) => item.id == id);
+    var cartItem = _cartItems.firstWhere(
+      (item) => item.id == id,
+    );
     cartItem.decrementQuantity();
     notifyListeners();
   }
@@ -28,12 +36,16 @@ class CartData extends ChangeNotifier {
 
     _cartItems.add(item);
     notifyListeners();
+    print('ITEM IS SUCCESSFULLY ADDED TO CART');
   }
 
-  void removeFromCart(String id) {
-    var cartItem = _cartItems.firstWhere((item) => item.id == id);
+  void removeFromCart(String prodId) {
+    var cartItem = _cartItems.firstWhere(
+      (item) => item.prodId == prodId,
+    );
     _cartItems.remove(cartItem);
     notifyListeners();
+    print('ITEM IS SUCCESSFULLY REMOVED FROM CART');
   }
 
   get cartItemCount {
