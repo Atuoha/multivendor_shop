@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../constants/colors.dart';
 import '../../../providers/order.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
 import '../product/details.dart';
 
@@ -22,8 +23,9 @@ class CustomerOrderScreen extends StatelessWidget {
       orderData.removeFromOrder(id);
     }
 
-    // payNow
-    void payNow() {
+
+    // pay through stripe
+    void payNow() async {
       // TODO: Implement Pay now
     }
 

@@ -1,7 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/cart.dart';
 import 'cart.dart';
 import 'favorites.dart';
 import 'home.dart';
@@ -37,6 +40,7 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    var cartData = Provider.of<CartData>(context, listen: false);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -52,7 +56,7 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
         activeColor: Colors.white,
         initialActiveIndex: currentPageIndex,
         style: TabStyle.reactCircle,
-        items: const [
+        items: [
           TabItem(
             icon: Icons.house_siding,
           ),
@@ -66,7 +70,21 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
             icon: Icons.storefront,
           ),
           TabItem(
-            icon: Icons.shopping_cart_outlined,
+            icon: Consumer<CartData>(
+              builder: (context, data, child) => Badge(
+                badgeContent: Text(
+                  cartData.cartItemCount.toString(),
+                  style: const TextStyle(
+                    color: primaryColor,
+                  ),
+                ),
+                child:  Icon(
+                  Icons.shopping_bag_outlined,
+                  size: currentPageIndex == 4 ? 40 : 25,
+                  color: currentPageIndex == 4 ? primaryColor : Colors.white70,
+                ),
+              ),
+            ),
           ),
           TabItem(
             icon: Icons.person_outline,

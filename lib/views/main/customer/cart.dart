@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/views/main/customer/order.dart';
 import 'package:provider/provider.dart';
@@ -145,20 +146,43 @@ class _CartScreenState extends State<CartScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.shopping_cart,
-                      color: primaryColor,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.shopping_cart,
+                            color: primaryColor,
+                          ),
+                          Text(
+                            'Cart',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 28,
+                              color: primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Cart',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 28,
-                        color: primaryColor,
+                    Consumer<CartData>(
+                      builder: (context, data, child) => Badge(
+                        badgeContent: Text(
+                          cartData.cartItemCount.toString(),
+                          style: const TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.shopping_bag_outlined,
+                          size: 30,
+                          color: primaryColor,
+                        ),
                       ),
                     ),
                   ],

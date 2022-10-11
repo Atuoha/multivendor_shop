@@ -66,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 18),
               child: const SearchBox(),
             ),
+           
             const SizedBox(height: 10),
             buildCarouselSlider(),
             const SizedBox(height: 10),

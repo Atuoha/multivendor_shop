@@ -54,6 +54,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   provider: ^6.0.3
   intl: ^0.17.0
+  flutter_stripe: ^5.1.0
 
 dev_dependencies:
   flutter_test:
