@@ -1,17 +1,13 @@
+import 'cart.dart';
+
 class Order {
   final String id;
-  final String prodId;
-  final String prodName;
-  final String prodImg;
-  final int quantity;
-  final int price;
+  final int totalPrice;
+  final List<CartItem> items;
 
   Order({
     required this.id,
-    required this.prodId,
-    required this.prodName,
-    required this.prodImg,
-    required this.quantity,
-    required this.price,
+    required this.totalPrice,
+    required this.items,
   });
 }

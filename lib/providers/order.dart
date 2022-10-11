@@ -7,11 +7,8 @@ class OrderData extends ChangeNotifier {
   void addToOrder(Order order) {
     Order item = Order(
       id: DateTime.now().toString(),
-      prodId: order.prodId,
-      prodName: order.prodName,
-      price: order.price,
-      quantity: order.quantity,
-      prodImg: order.prodImg,
+      totalPrice: order.totalPrice,
+      items: order.items,
     );
 
     _orderItems.add(item);
@@ -35,6 +32,7 @@ class OrderData extends ChangeNotifier {
   }
 
   get orderTotalPrice {
+    totalPrice = 0.0;
     for (var item in _orderItems) {
       totalPrice += item.totalPrice;
     }
