@@ -57,28 +57,30 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
         initialActiveIndex: currentPageIndex,
         style: TabStyle.reactCircle,
         items: [
-          TabItem(
+          const TabItem(
             icon: Icons.house_siding,
           ),
-          TabItem(
+          const TabItem(
             icon: Icons.favorite_border,
           ),
-          TabItem(
+          const TabItem(
             icon: Icons.category_outlined,
           ),
-          TabItem(
+          const TabItem(
             icon: Icons.storefront,
           ),
           TabItem(
             icon: Consumer<CartData>(
               builder: (context, data, child) => Badge(
                 badgeContent: Text(
-                  cartData.cartItemCount.toString(),
-                  style: const TextStyle(
-                    color: primaryColor,
-                  ),
-                ),
-                child:  Icon(
+                        cartData.cartItemCount.toString(),
+                        style: const TextStyle(
+                          color: primaryColor,
+                        ),
+                      )
+                   ,
+               showBadge: cartData.cartItems.isNotEmpty ? true:false,
+                child: Icon(
                   Icons.shopping_bag_outlined,
                   size: currentPageIndex == 4 ? 40 : 25,
                   color: currentPageIndex == 4 ? primaryColor : Colors.white70,
@@ -86,7 +88,7 @@ class _CustomerBottomNavState extends State<CustomerBottomNav> {
               ),
             ),
           ),
-          TabItem(
+          const TabItem(
             icon: Icons.person_outline,
           )
         ],

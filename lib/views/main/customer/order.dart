@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../constants/colors.dart';
@@ -22,7 +23,6 @@ class CustomerOrderScreen extends StatelessWidget {
     void removeFromOrder(String id) {
       orderData.removeFromOrder(id);
     }
-
 
     // pay through stripe
     void payNow() async {
@@ -231,12 +231,19 @@ class CustomerOrderScreen extends StatelessWidget {
                               ),
                               subtitle: Text('\$${subData.totalPrice}'),
                               trailing: IconButton(
-                                onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailsScreen(product: subData),
-                                  ),
-                                ),
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection('products')
+                                      .doc(subData.docId)
+                                      .get()
+                                      .then((value) =>
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailsScreen(product: value),
+                                            ),
+                                          ));
+                                },
                                 icon: const Icon(
                                   Icons.chevron_right,
                                   color: primaryColor,

@@ -178,6 +178,7 @@ class _CartScreenState extends State<CartScreen> {
                             color: primaryColor,
                           ),
                         ),
+                        showBadge: cartData.cartItems.isNotEmpty ? true:false,
                         child: const Icon(
                           Icons.shopping_bag_outlined,
                           size: 30,

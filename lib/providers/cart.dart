@@ -35,6 +35,7 @@ class CartData extends ChangeNotifier {
   void addToCart(CartItem cart) {
     CartItem item = CartItem(
       id: DateTime.now().toString(),
+      docId: cart.docId,
       prodId: cart.prodId,
       prodName: cart.prodName,
       prodPrice: cart.prodPrice,

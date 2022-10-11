@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../constants/colors.dart';
+import '../views/main/product/details.dart';
 
 Dismissible buildCart(
-    void Function(String prodId) removeFromCart,
-    item,
-    BuildContext context,
-    void Function(String id) increaseQuantity,
-    void Function(String id) reduceQuantity,
-    ) {
+  void Function(String prodId) removeFromCart,
+  item,
+  BuildContext context,
+  void Function(String id) increaseQuantity,
+  void Function(String id) reduceQuantity,
+) {
   return Dismissible(
     onDismissed: (direction) => removeFromCart(item.prodId),
     direction: DismissDirection.endToStart,
@@ -69,61 +71,76 @@ Dismissible buildCart(
     key: ValueKey(item.id),
     child: Card(
       elevation: 3,
-      child: ListTile(
-        contentPadding: const EdgeInsets.only(
-          left: 10,
-          right: 10,
-          top: 5,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: primaryColor,
-          backgroundImage: NetworkImage(item.prodImgUrl),
-        ),
-        title: Text(
-          item.prodName,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('\$${item.totalPrice}'),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => increaseQuantity(item.id),
-                  child: const Icon(
-                    Icons.add,
-                    color: primaryColor,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  item.quantity.toString(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () => reduceQuantity(item.id),
-                  child: const Icon(
-                    Icons.remove,
-                    color: primaryColor,
-                  ),
-                ),
-              ],
+      child: GestureDetector(
+        onTap: () async{
+         await FirebaseFirestore.instance
+              .collection('products')
+              .doc(item.docId)
+              .get().then((value) =>
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DetailsScreen(product: value),
             ),
-          ],
-        ),
-        trailing: IconButton(
-          onPressed: () => removeFromCart(item.prodId),
-          icon: const Icon(
-            Icons.delete_forever,
-            color: primaryColor,
+          )
+          );
+        },
+        child: ListTile(
+          contentPadding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 5,
+          ),
+          leading: CircleAvatar(
+            backgroundColor: primaryColor,
+            backgroundImage: NetworkImage(item.prodImgUrl),
+          ),
+          title: Text(
+            item.prodName,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('\$${item.totalPrice}'),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => increaseQuantity(item.id),
+                    child: const Icon(
+                      Icons.add,
+                      color: primaryColor,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    item.quantity.toString(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () => reduceQuantity(item.id),
+                    child: const Icon(
+                      Icons.remove,
+                      color: primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          trailing: IconButton(
+            onPressed: () => removeFromCart(item.prodId),
+            icon: const Icon(
+              Icons.delete_forever,
+              color: primaryColor,
+            ),
           ),
         ),
       ),

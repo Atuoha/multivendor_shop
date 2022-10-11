@@ -144,7 +144,8 @@ class _DetailsScreenState extends State<DetailsScreen>
       cartData.addToCart(
         CartItem(
           id: '',
-          prodId: product.prod_id,
+          docId: product.id,
+          prodId: product['prod_id'],
           prodName: product['title'],
           prodPrice: double.parse(product['price']),
           prodImgUrl: product['images'][0],
