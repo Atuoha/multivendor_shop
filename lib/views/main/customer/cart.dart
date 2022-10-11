@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:multivendor_shop/views/main/customer/order.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/colors.dart';
+import '../../../models/cart.dart';
+import '../../../models/order.dart';
 import '../../../providers/cart.dart';
+import '../../../providers/order.dart';
 import '../../../utilities/build_cart.dart';
 
 class CartScreen extends StatefulWidget {
@@ -14,89 +18,96 @@ class CartScreen extends StatefulWidget {
 enum Operation { checkoutCart, clearCart }
 
 class _CartScreenState extends State<CartScreen> {
-  // confirmation for checkout and clear cart
-  confirmOptions(Operation operation) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Icon(
-              operation == Operation.clearCart
-                  ? Icons.remove_shopping_cart_outlined
-                  : Icons.shopping_cart_checkout_outlined,
+  @override
+  Widget build(BuildContext context) {
+    var cartData = Provider.of<CartData>(context, listen: false);
+    var orderData = Provider.of<OrderData>(context, listen: false);
+
+    _clearCart() {
+      // clearing cart
+      cartData.clearCart();
+    }
+
+    _checkOut() {
+      // checking out cart items
+      List<CartItem> items = cartData.cartItems;
+      var totalPrice = cartData.cartTotalPrice;
+      orderData.addToOrder(Order(id: '', totalPrice: totalPrice, items: items));
+      _clearCart();
+      Navigator.of(context).pushNamed(CustomerOrderScreen.routeName);
+    }
+
+    // confirmation for checkout and clear cart
+    confirmOptions(Operation operation) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Icon(
+                operation == Operation.clearCart
+                    ? Icons.remove_shopping_cart_outlined
+                    : Icons.shopping_cart_checkout_outlined,
+                color: primaryColor,
+              ),
+              Text(
+                operation == Operation.clearCart
+                    ? 'Confirm Clear'
+                    : 'Confirm Checkout',
+                style: const TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            operation == Operation.clearCart
+                ? 'Are you sure you want to clear cart?'
+                : 'Are you sure you want to checkout cart?',
+            style: const TextStyle(
               color: primaryColor,
             ),
-            Text(
-              operation == Operation.clearCart
-                  ? 'Confirm Clear'
-                  : 'Confirm Checkout',
-              style: const TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.w600,
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {
+                operation == Operation.clearCart ? _clearCart() : _checkOut();
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
         ),
-        content: Text(
-          operation == Operation.clearCart
-              ? 'Are you sure you want to clear cart?'
-              : 'Are you sure you want to checkout cart?',
-          style: const TextStyle(
-            color: primaryColor,
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () =>
-                operation == Operation.clearCart ? _clearCart() : _checkOut(),
-            child: const Text(
-              'Yes',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  _clearCart() {
-    //TODO: Implement clear cart
-  }
-
-  _checkOut() {
-    //TODO: Implement checkout cart
-  }
-
-  var quantity = 1;
-
-  @override
-  Widget build(BuildContext context) {
-    var cartData = Provider.of<CartData>(context, listen: false);
+      );
+    }
 
     // remove from cart
     void removeFromCart(String prodId) {

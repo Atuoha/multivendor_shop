@@ -6,9 +6,9 @@ import 'package:multivendor_shop/views/main/seller/dashboard_screens/orders.dart
 import 'package:multivendor_shop/views/main/seller/dashboard_screens/statistics.dart';
 import 'package:multivendor_shop/views/main/seller/dashboard_screens/store_setup.dart';
 import 'package:multivendor_shop/views/main/seller/seller_bottomNav.dart';
-
 import '../views/auth/account_type_selector.dart';
 import '../views/main/customer/customer_bottomNav.dart';
+import '../views/main/customer/order.dart';
 import '../views/main/seller/dashboard_screens/upload_product.dart';
 import '../views/splash/entry.dart';
 import '../views/splash/splash.dart';
@@ -27,4 +27,5 @@ var routes = {
   StoreSetupScreen.routeName: (context) => const StoreSetupScreen(),
   StatisticsScreen.routeName: (context) => const StatisticsScreen(),
   AccountBalanceScreen.routeName: (context) => const AccountBalanceScreen(),
+  CustomerOrderScreen.routeName: (context)=>const CustomerOrderScreen(),
 };

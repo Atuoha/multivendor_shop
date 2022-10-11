@@ -13,6 +13,8 @@ class OrderData extends ChangeNotifier {
 
     _orderItems.add(item);
     notifyListeners();
+
+    print('ADDED TO ORDER');
   }
 
   void removeFromOrder(String id) {
@@ -27,7 +29,7 @@ class OrderData extends ChangeNotifier {
     return _orderItems.length;
   }
 
-  get orderItems {
+  List<Order> get orderItems {
     return [..._orderItems];
   }
 

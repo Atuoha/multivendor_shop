@@ -4,6 +4,11 @@ import 'package:multivendor_shop/models/cart.dart';
 class CartData extends ChangeNotifier {
   var totalPrice = 0.0;
 
+  void clearCart() {
+    _cartItems.clear();
+    notifyListeners();
+  }
+
   bool isItemOnCart(String prodId) {
     return _cartItems.any((item) => item.prodId == prodId);
   }
@@ -61,7 +66,7 @@ class CartData extends ChangeNotifier {
     return totalPrice;
   }
 
-  get cartItems {
+  List<CartItem> get  cartItems {
     return [..._cartItems];
   }
 

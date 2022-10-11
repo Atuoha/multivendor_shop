@@ -2,7 +2,7 @@ import 'cart.dart';
 
 class Order {
   final String id;
-  final int totalPrice;
+  final double totalPrice;
   final List<CartItem> items;
 
   Order({
