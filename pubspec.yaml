@@ -53,6 +53,7 @@ dependencies:
   floating_action_bubble: ^1.1.4
   font_awesome_flutter: ^10.2.1
   provider: ^6.0.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

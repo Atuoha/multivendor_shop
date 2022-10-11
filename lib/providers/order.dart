@@ -9,6 +9,7 @@ class OrderData extends ChangeNotifier {
       id: DateTime.now().toString(),
       totalPrice: order.totalPrice,
       items: order.items,
+      orderDate: DateTime.now(),
     );
 
     _orderItems.add(item);

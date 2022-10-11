@@ -32,9 +32,22 @@ class _CartScreenState extends State<CartScreen> {
       // checking out cart items
       List<CartItem> items = cartData.cartItems;
       var totalPrice = cartData.cartTotalPrice;
-      orderData.addToOrder(Order(id: '', totalPrice: totalPrice, items: items));
+      orderData.addToOrder(
+        Order(
+          id: '',
+          totalPrice: totalPrice,
+          items: items,
+          orderDate: DateTime.now(),
+        ),
+      );
       _clearCart();
-      Navigator.of(context).pushNamed(CustomerOrderScreen.routeName);
+      Navigator.of(context)
+          .pushNamed(
+            CustomerOrderScreen.routeName,
+          )
+          .then(
+            (value) => Navigator.of(context).pop(),
+          );
     }
 
     // confirmation for checkout and clear cart
@@ -80,7 +93,6 @@ class _CartScreenState extends State<CartScreen> {
               ),
               onPressed: () {
                 operation == Operation.clearCart ? _clearCart() : _checkOut();
-                Navigator.of(context).pop();
               },
               child: const Text(
                 'Yes',

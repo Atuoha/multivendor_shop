@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
 import 'package:multivendor_shop/views/auth/account_type_selector.dart';
+import 'package:multivendor_shop/views/main/customer/order.dart';
 import 'edit_profile.dart';
 import '../../../components/kDividerText.dart';
 import '../../../components/kListTile.dart';
@@ -263,9 +264,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: ()=> Navigator.of(context).pushNamed(CustomerOrderScreen.routeName),
                                 child: const Text(
-                                  'Order',
+                                  'Orders',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -284,7 +285,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: (){},
                                 child: const Text(
                                   'Wishlist',
                                   style: TextStyle(
