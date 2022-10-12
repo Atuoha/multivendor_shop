@@ -184,12 +184,12 @@ class _DetailsScreenState extends State<DetailsScreen>
       floatingActionButton: FloatingActionBubble(
         items: <Bubble>[
           Bubble(
-            title: cartData.isItemOnCart(widget.product.prod_id)
+            title: cartData.isItemOnCart(widget.product['prod_id'])
                 ? "Remove from cart"
                 : "Add to cart",
             iconColor: Colors.white,
             bubbleColor: primaryColor,
-            icon: cartData.isItemOnCart(widget.product.prod_id)
+            icon: cartData.isItemOnCart(widget.product['prod_id'])
                 ? Icons.shopping_cart
                 : Icons.shopping_cart_outlined,
             titleStyle: const TextStyle(
@@ -197,7 +197,7 @@ class _DetailsScreenState extends State<DetailsScreen>
               color: Colors.white,
             ),
             onPress: () {
-              if (cartData.isItemOnCart(widget.product.prod_id)) {
+              if (cartData.isItemOnCart(widget.product['prod_id'])) {
                 removeFromCart();
               } else {
                 addToCart();

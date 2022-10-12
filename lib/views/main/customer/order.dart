@@ -236,13 +236,14 @@ class CustomerOrderScreen extends StatelessWidget {
                                       .collection('products')
                                       .doc(subData.docId)
                                       .get()
-                                      .then((value) =>
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailsScreen(product: value),
-                                            ),
-                                          ));
+                                      .then(
+                                        (value) => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetailsScreen(product: value),
+                                          ),
+                                        ),
+                                      );
                                 },
                                 icon: const Icon(
                                   Icons.chevron_right,

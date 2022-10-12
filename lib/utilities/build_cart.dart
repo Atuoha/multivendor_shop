@@ -72,18 +72,19 @@ Dismissible buildCart(
     child: Card(
       elevation: 3,
       child: GestureDetector(
-        onTap: () async{
-         await FirebaseFirestore.instance
+        onTap: () async {
+          print('dkfjsdklfjsdklf');
+          await FirebaseFirestore.instance
               .collection('products')
               .doc(item.docId)
-              .get().then((value) =>
-
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => DetailsScreen(product: value),
-            ),
-          )
-          );
+              .get()
+              .then(
+                (value) => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DetailsScreen(product: value),
+                  ),
+                ),
+              );
         },
         child: ListTile(
           contentPadding: const EdgeInsets.only(
