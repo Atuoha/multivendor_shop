@@ -177,6 +177,7 @@ class _DetailsScreenState extends State<DetailsScreen>
         .collection('products')
         .where('category', isEqualTo: product['category'])
         .where('sub_category', isEqualTo: product['sub_category'])
+        // .where('prod_id', isNotEqualTo: product['prod_id'])
         .snapshots();
 
     return Scaffold(

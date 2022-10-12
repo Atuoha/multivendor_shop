@@ -76,20 +76,24 @@ class ProductStreamBuilder extends StatelessWidget {
           }
 
           if (snapshot.data!.docs.isEmpty) {
-            return Column(
-              children: [
-                Image.asset(
-                  'assets/images/sad.png',
-                  width: 150,
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'No data available!',
-                  style: TextStyle(
-                    color: primaryColor,
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/sad.png',
+                    width: 150,
                   ),
-                )
-              ],
+                  const SizedBox(height: 10),
+                  const Text(
+                    'No data available!',
+                    style: TextStyle(
+                      color: primaryColor,
+                    ),
+                  )
+                ],
+              ),
             );
           }
 

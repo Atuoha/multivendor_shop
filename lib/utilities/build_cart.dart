@@ -73,7 +73,6 @@ Dismissible buildCart(
       elevation: 3,
       child: GestureDetector(
         onTap: () async {
-          print('dkfjsdklfjsdklf');
           await FirebaseFirestore.instance
               .collection('products')
               .doc(item.docId)
