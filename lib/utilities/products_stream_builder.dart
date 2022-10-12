@@ -31,6 +31,7 @@ class ProductStreamBuilder extends StatelessWidget {
     void addToCart(
         var docId,
       var prodId,
+      var sellerId,
       var prodName,
       var prodPrice,
       var prodImgUrl,
@@ -40,6 +41,7 @@ class ProductStreamBuilder extends StatelessWidget {
           id: '',
           docId: docId,
           prodId: prodId,
+          sellerId: sellerId,
           prodName: prodName,
           prodPrice: double.parse(prodPrice),
           prodImgUrl: prodImgUrl,
@@ -193,6 +195,7 @@ class ProductStreamBuilder extends StatelessWidget {
                                 addToCart(
                                   data.id,
                                   data['prod_id'],
+                                  data['seller_id'],
                                   data['title'],
                                   data['price'],
                                   data['images'][0],

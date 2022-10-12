@@ -146,6 +146,7 @@ class _DetailsScreenState extends State<DetailsScreen>
           id: '',
           docId: product.id,
           prodId: product['prod_id'],
+          sellerId: product['seller_id'],
           prodName: product['title'],
           prodPrice: double.parse(product['price']),
           prodImgUrl: product['images'][0],

@@ -37,6 +37,7 @@ class CartData extends ChangeNotifier {
       id: DateTime.now().toString(),
       docId: cart.docId,
       prodId: cart.prodId,
+      sellerId: cart.sellerId,
       prodName: cart.prodName,
       prodPrice: cart.prodPrice,
       prodImgUrl: cart.prodImgUrl,

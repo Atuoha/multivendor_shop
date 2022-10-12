@@ -1,6 +1,7 @@
 class CartItem {
   final String id;
   final dynamic docId;
+  final String sellerId;
   final String prodId;
   final String prodName;
   final String prodImgUrl;
@@ -11,6 +12,7 @@ class CartItem {
   CartItem({
     required this.id,
     required this.docId,
+    required this.sellerId,
     required this.prodId,
     required this.prodName,
     required this.prodPrice,
