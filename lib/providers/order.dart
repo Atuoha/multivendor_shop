@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/models/order.dart';
 
+import '../models/cart.dart';
+
 class OrderData extends ChangeNotifier {
   var totalPrice = 0.0;
 
@@ -16,8 +18,23 @@ class OrderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pullSpecificOrders(String id){
-    
+  var _totalOrderAmount = 0.0;
+
+  List<CartItem> pullSpecificOrders(String id) {
+    List<CartItem> items = [];
+    for (var order in _orderItems) {
+      for (var item in order.items) {
+        if (item.sellerId == id) {
+          items.add(item);
+          _totalOrderAmount += item.prodPrice;
+        }
+      }
+    }
+    return items;
+  }
+
+  get totalOrderAmount {
+    return _totalOrderAmount;
   }
 
   void removeFromOrder(String id) {

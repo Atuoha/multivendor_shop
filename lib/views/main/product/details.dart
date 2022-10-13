@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multivendor_shop/components/loading.dart';
@@ -137,7 +138,7 @@ class _DetailsScreenState extends State<DetailsScreen>
   @override
   Widget build(BuildContext context) {
     var cartData = Provider.of<CartData>(context, listen: false);
-
+    var userId = FirebaseAuth.instance.currentUser!.uid;
     // add to cart
     void addToCart() {
       var product = widget.product;
@@ -146,6 +147,7 @@ class _DetailsScreenState extends State<DetailsScreen>
           id: '',
           docId: product.id,
           prodId: product['prod_id'],
+          userId: userId,
           sellerId: product['seller_id'],
           prodName: product['title'],
           prodPrice: double.parse(product['price']),

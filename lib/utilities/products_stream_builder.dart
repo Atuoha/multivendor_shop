@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/views/main/product/details.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class ProductStreamBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cartData = Provider.of<CartData>(context, listen: false);
+    var userId = FirebaseAuth.instance.currentUser!.uid;
 
     // add to cart
     void addToCart(
@@ -42,6 +44,7 @@ class ProductStreamBuilder extends StatelessWidget {
           docId: docId,
           prodId: prodId,
           sellerId: sellerId,
+          userId: userId,
           prodName: prodName,
           prodPrice: double.parse(prodPrice),
           prodImgUrl: prodImgUrl,
