@@ -25,7 +25,6 @@ class _SellerBottomNavState extends State<SellerBottomNav> {
     DashboardScreen(),
     const CategoryScreen(),
     const StoreScreen(),
-    const CartScreen(),
     const ProfileScreen(),
   ];
 
@@ -64,9 +63,6 @@ class _SellerBottomNavState extends State<SellerBottomNav> {
           ),
           TabItem(
             icon: Icons.storefront,
-          ),
-           TabItem(
-            icon: Icons.shopping_cart_outlined,
           ),
           TabItem(
             icon: Icons.person_outline,
