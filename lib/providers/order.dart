@@ -21,6 +21,7 @@ class OrderData extends ChangeNotifier {
   var _totalOrderAmount = 0.0;
 
   List<CartItem> pullSpecificOrders(String id) {
+    _totalOrderAmount = 0.0;
     List<CartItem> items = [];
     for (var order in _orderItems) {
       for (var item in order.items) {
@@ -35,6 +36,19 @@ class OrderData extends ChangeNotifier {
 
   get totalOrderAmount {
     return _totalOrderAmount;
+  }
+
+  DateTime? getOrderDate(String id) {
+    DateTime? date;
+    for (var item in _orderItems) {
+      for (var cartItem in item.items) {
+        if (cartItem.id == id) {
+          date = item.orderDate;
+        }
+      }
+    }
+
+    return date;
   }
 
   void removeFromOrder(String id) {

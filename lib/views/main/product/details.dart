@@ -139,6 +139,7 @@ class _DetailsScreenState extends State<DetailsScreen>
   Widget build(BuildContext context) {
     var cartData = Provider.of<CartData>(context, listen: false);
     var userId = FirebaseAuth.instance.currentUser!.uid;
+
     // add to cart
     void addToCart() {
       var product = widget.product;
