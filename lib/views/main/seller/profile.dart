@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:multivendor_shop/components/loading.dart';
 import 'package:multivendor_shop/constants/colors.dart';
+import 'package:multivendor_shop/views/main/seller/dashboard_screens/orders.dart';
 import '../../auth/account_type_selector.dart';
+import 'dashboard_screens/account_balance.dart';
+import 'dashboard_screens/manage_products.dart';
 import 'edit_profile.dart';
 import '../../../components/kListTile.dart';
 import '../../auth/auth.dart';
@@ -262,7 +265,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(OrdersScreen.routeName),
                                 child: const Text(
                                   'Order',
                                   style: TextStyle(
@@ -283,9 +287,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(AccountBalanceScreen.routeName),
                                 child: const Text(
-                                  'Wishlist',
+                                  'Account',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -307,9 +312,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(ManageProductsScreen.routeName),
                                 child: const Text(
-                                  'Cart',
+                                  'Products',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
@@ -321,7 +327,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      // const KDividerText(title: 'Account Information'),
                       const SizedBox(height: 20),
                       Container(
                         height: size.height / 2.8,
