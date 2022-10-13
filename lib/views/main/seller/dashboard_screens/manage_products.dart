@@ -7,6 +7,7 @@ import '../../../../components/search_box.dart';
 import '../../../../constants/colors.dart';
 import '../../../../utilities/products_stream_builder.dart';
 import '../../product/details.dart';
+import 'edit_product.dart';
 
 class ManageProductsScreen extends StatefulWidget {
   static const routeName = '/manage_products';
@@ -55,7 +56,10 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 5,
+          ),
           child: SizedBox(
             height: MediaQuery.of(context).size.height / 1.2,
             child: StreamBuilder<QuerySnapshot>(
@@ -104,7 +108,7 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                     return GestureDetector(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => DetailsScreen(product: item.id),
+                          builder: (context) => DetailsScreen(product: item),
                         ),
                       ),
                       child: Dismissible(
@@ -188,7 +192,11 @@ class _ManageProductsScreenState extends State<ManageProductsScreen> {
                             ),
                             subtitle: Text('\$${item['price']}'),
                             trailing: IconButton(
-                              onPressed: () => {},
+                              onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => EditProduct(product: item),
+                                ),
+                              ),
                               icon: const Icon(
                                 Icons.edit_note,
                                 color: primaryColor,
